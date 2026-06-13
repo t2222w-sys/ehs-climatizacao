@@ -1,0 +1,7 @@
+# Ficheiros do sistema
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
