@@ -13,8 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentLang = localStorage.getItem('ehsLang') || 'pt';
 
   function applyTranslations(lang) {
-    if (!t[lang]) return;
-    const dict = t[lang];
+    const allTranslations = window.translations || {};
+    const dict = allTranslations[lang];
+    if (!dict) return;
 
     // Elementos com data-i18n (textContent simples)
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -66,7 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Expõe currentLang para outras funções
   window.getCurrentLang = () => currentLang;
 
-  // 1. ANIMAÇÕES AO SCROLL (INTERSECTION OBSERVER)
+  // 1. ANIMAÇÕES AO SCROLL (INTERSECTION OBSERVER COM FALLBACK)
+  document.documentElement.classList.add('js-observer');
   const revealElements = document.querySelectorAll('.reveal');
   
   const revealObserver = new IntersectionObserver((entries, observer) => {

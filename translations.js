@@ -58,6 +58,7 @@ window.translations = {
     service3_title: "Aquecimento de Água: Termossifão & Solar Térmico",
     service3_desc: "Venda, instalação, manutenção e assistência técnica para painéis solares térmicos, sistemas de termossifão e sistemas forçados, piso aquecido, aquecedores de água e termoacumuladores inteligentes. Água quente e conforto térmico assegurados com baixo consumo.",
     service3_link: "Descobrir serviço &rarr;",
+    service_link: "Descobrir serviço",
 
     // Urgência
     urgency_badge: "Assistência Técnica",
@@ -333,6 +334,7 @@ window.translations = {
     service3_title: "Water Heating: Thermosiphon & Solar Thermal",
     service3_desc: "Sales, installation, maintenance and technical assistance for solar thermal panels, thermosiphon and forced systems, underfloor heating, water heaters and smart hot water tanks. Hot water and thermal comfort assured with low consumption.",
     service3_link: "Discover service &rarr;",
+    service_link: "Discover service",
 
     // Urgency
     urgency_badge: "Technical Support",
