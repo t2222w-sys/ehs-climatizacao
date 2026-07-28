@@ -1,42 +1,26 @@
-# EHS Home Services Lda - Climatização e Transição Energética no Algarve
+# EHS Home Services Lda - Climatização e Sistemas Solares no Algarve
 
-> Especialistas em venda, instalação, higienização química profunda e assistência técnica de Ar Condicionado, Painéis Solares Fotovoltaicos e Termoacumuladores no Algarve.
+> Empresa especializada em venda, instalação, higienização química profunda e assistência técnica de Ar Condicionado, Painéis Solares Fotovoltaicos e Termoacumuladores no Algarve.
 
-## Informação Geral
-- **Nome da Empresa:** EHS Home Services Lda
-- **NIF:** 515845850
-- **Anos de Experiência:** 7 anos no mercado algarvio
-- **Certificações:** Técnicos credenciados pela APA (Agência Portuguesa do Ambiente) para manuseamento de gases fluorados
-- **Localização Sede:** Estrada de Quelfes 9A, 8700-218 Quelfes, Olhão, Algarve, Portugal
-- **Contactos:** +351 926 466 333 / +351 933 214 718 (Rede móvel nacional)
-- **Email:** elitehomeservices@hotmail.com
-- **Horário Técnico:** Segunda a Sexta das 08:30 às 18:30
-- **Áreas de Cobertura:** Faro, Olhão, Loulé, Albufeira, Tavira, Almancil, Quarteira, Silves, Ferreiras, Moncarapacho
+## Main Pages and Services
 
-## Principais Serviços
+- [Página Inicial EHS Home Services](https://ehs-climatizacao.vercel.app/): Apresentação dos serviços de climatização, manutenção e transição energética no Algarve.
+- [Higienização Química de Ar Condicionado](https://ehs-climatizacao.vercel.app/#higienizacao): Serviço técnico de limpeza profunda para desinfeção de turbinas, remoção de bolores e redução de consumo elétrico.
+- [Catálogo de Serviços de Climatização](https://ehs-climatizacao.vercel.app/#servicos): Venda, instalação e assistência técnica para Ar Condicionado, Painéis Fotovoltaicos e Aquecimento Solar de Água.
+- [Como Funciona o Serviço](https://ehs-climatizacao.vercel.app/#como-funciona): Processo em 3 passos: contacto, diagnóstico com orçamento gratuito e execução com garantia por escrito.
+- [Simulador de BTUs Interativo](https://ehs-climatizacao.vercel.app/#simulador-btu): Calculadora técnica para determinar a potência ideal de ar condicionado (BTU/h e kW) adaptada a cada divisão.
+- [Trabalhos Realizados e Avaliações](https://ehs-climatizacao.vercel.app/#testemunhos): Fotos de projetos executados e avaliações 5.0 estrelas no Google Maps.
+- [Perguntas Frequentes (FAQ)](https://ehs-climatizacao.vercel.app/#faq): Esclarecimentos sobre sistemas fotovoltaicos, manutenção periódica e custos de instalação no Algarve.
+- [Pedido de Orçamento Gratuito](https://ehs-climatizacao.vercel.app/#lead-form-section): Formulário de contacto para agendamento de visita técnica sem compromisso.
 
-### 1. Ar Condicionado (Venda, Instalação, Higienização & Manutenção)
-- Venda e dimensionamento de equipamentos (Daikin, Mitsubishi, Fujitsu, LG, Samsung, Midea, Haier, Bosch).
-- Instalação profissional doméstica e comercial com acabamentos ocultos.
-- Higienização química profunda de turbinas e filtros para remoção de bolores, fungos, vírus e maus cheiros.
-- Diagnóstico e resolução de fugas de água e falta de rendimento.
+## Company Profile & Contact Info
 
-### 2. Painéis Solares Fotovoltaicos
-- Venda, projeto e instalação para autoconsumo residencial e comercial.
-- Manutenção periódica e otimização de produção energética.
-
-### 3. Aquecimento de Água (Termossifão & Solar Térmico)
-- Venda, instalação e reparação de sistemas de termossifão, painéis solares térmicos e termoacumuladores inteligentes.
-
-## Simulador de BTUs Incorporado
-O site dispõe de uma calculadora técnica interativa de BTUs para ar condicionado baseada em:
-- Área do espaço (m²)
-- Número de ocupantes
-- Exposição solar (Pouca, Moderada, Muita)
-- Localização no edifício (Rés-do-chão, Intermédio, Cobertura)
-- Qualidade do isolamento térmico
-- Carga de equipamentos eletrónicos
-
-## Garantia e Orçamentos
-- Orçamentos e visitas técnicas de avaliação 100% gratuitas e sem compromisso em todo o Algarve.
-- Garantia por escrito em todas as peças e serviços de instalação.
+- [Website Oficial](https://ehs-climatizacao.vercel.app/)
+- [Localização no Google Maps](https://www.google.com/maps/place/Elite+Home+Services+Lda/@37.0362218,-7.8348375,16z)
+- [Contacto via WhatsApp](https://wa.me/351926466333)
+- Phone: [+351 926 466 333](tel:+351926466333) / [+351 933 214 718](tel:+351933214718)
+- Email: [elitehomeservices@hotmail.com](mailto:elitehomeservices@hotmail.com)
+- Address: Estrada de Quelfes 9A, 8700-218 Quelfes, Olhão, Algarve, Portugal
+- NIF / Tax ID: 515845850
+- Certifications: APA (Agência Portuguesa do Ambiente) Certified Technicians
+- Coverage Area: Faro, Olhão, Loulé, Albufeira, Tavira, Almancil, Quarteira, Silves, Ferreiras, Moncarapacho
