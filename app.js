@@ -21,11 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
       if (dict[key] !== undefined) {
-        // Se a tradução contiver HTML usa innerHTML, senão textContent
-        if (dict[key].includes('<') || dict[key].includes('&')) {
-          el.innerHTML = dict[key];
+        const val = dict[key];
+        const isHtml = val.includes('<') || val.includes('&');
+        if (isHtml) {
+          if (el.innerHTML !== val) el.innerHTML = val;
         } else {
-          el.textContent = dict[key];
+          if (el.textContent !== val) el.textContent = val;
         }
       }
     });
