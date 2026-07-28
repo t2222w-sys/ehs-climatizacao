@@ -28,8 +28,9 @@
   <meta name="twitter:description" content="Técnicos credenciados APA em climatização, ar condicionado e energia solar no Algarve. Orçamentos gratuitos.">
   <meta name="twitter:image" content="https://ehs-climatizacao.vercel.app/hero_bg_new.png">
 
-  <!-- Otimizações de Desempenho (Preload & Non-Blocking CSS/JS) -->
-  <link rel="preload" href="hero_bg_new.webp" as="image" type="image/webp" fetchpriority="high">
+  <!-- Otimizações de Desempenho (Preload de LCP Responsivo & Non-Blocking CSS/JS) -->
+  <link rel="preload" href="hero_bg_mobile.webp" as="image" type="image/webp" media="(max-width: 768px)" fetchpriority="high">
+  <link rel="preload" href="hero_bg_new.webp" as="image" type="image/webp" media="(min-width: 769px)" fetchpriority="high">
   <link rel="preload" href="styles.min.css" as="style">
   <link rel="stylesheet" href="styles.min.css">
   <script src="translations.min.js" defer></script>
@@ -200,7 +201,11 @@
   </div>
 
   <!-- 1. HERO SECTION (FUNDO ESCURO COM INDICADORES DE CONFIANÇA) -->
-  <section class="hero-editorial theme-dark" style="background-image: url('hero_bg_new.webp');">
+  <section class="hero-editorial theme-dark">
+    <picture class="hero-bg-picture">
+      <source media="(max-width: 768px)" srcset="hero_bg_mobile.webp" type="image/webp">
+      <img src="hero_bg_new.webp" alt="EHS Climatização e Sistemas Solares no Algarve" class="hero-bg-img" width="1920" height="1080" fetchpriority="high" loading="eager" decoding="async">
+    </picture>
     <div class="hero-overlay"></div>
     <div class="container">
       <div class="reveal">
