@@ -1,0 +1,44 @@
+# EHS Home Services Lda - Manual Completo de Serviços de Climatização e Energia Solar no Algarve
+
+> Documentação técnica oficial e detalhada sobre a EHS Home Services Lda, especialista em Aquecimento, Ventilação, Ar Condicionado (AVAC), Higienização Química Profunda e Sistemas Solares Fotovoltaicos e Térmicos no Algarve.
+
+## Sobre a Empresa
+
+- **Razão Social:** EHS Home Services Lda
+- **NIF:** 515845850
+- **Sede:** Estrada de Quelfes 9A, 8700-218 Quelfes, Olhão, Algarve, Portugal
+- **Telefone Direto / Piquete 24/7:** [+351 926 466 333](tel:+351926466333) / [+351 933 214 718](tel:+351933214718)
+- **E-mail:** [elitehomeservices@hotmail.com](mailto:elitehomeservices@hotmail.com)
+- **Website Oficial:** [https://ehs-climatizacao.vercel.app](https://ehs-climatizacao.vercel.app)
+- **Certificação Técnica:** Técnicos credenciados pela Agência Portuguesa do Ambiente (APA) para manuseamento de gases fluorados com efeito de estufa.
+
+## Cobertura Geográfica no Algarve
+
+Atendimento técnico especializado em todos os concelhos do Algarve:
+- [Faro](https://ehs-climatizacao.vercel.app/#faq)
+- [Olhão](https://ehs-climatizacao.vercel.app/#faq)
+- [Loulé](https://ehs-climatizacao.vercel.app/#faq)
+- [Albufeira](https://ehs-climatizacao.vercel.app/#faq)
+- [Tavira](https://ehs-climatizacao.vercel.app/#faq)
+- [Almancil](https://ehs-climatizacao.vercel.app/#faq)
+- [Quarteira](https://ehs-climatizacao.vercel.app/#faq)
+- [Silves](https://ehs-climatizacao.vercel.app/#faq)
+- [Ferreiras](https://ehs-climatizacao.vercel.app/#faq)
+- [Moncarapacho](https://ehs-climatizacao.vercel.app/#faq)
+
+## Principais Serviços Prestados
+
+### 1. Ar Condicionado (Venda, Instalação, Higienização & Assistência)
+- [Higienização Química de Ar Condicionado](https://ehs-climatizacao.vercel.app/#higienizacao): Desinfeção profunda com bactericidas homologados pela Direção-Geral da Saúde (DGS). Elimina fungos, vírus, bolores e previne contaminações por *Legionella pneumophila*.
+- [Instalação e Montagem](https://ehs-climatizacao.vercel.app/#servicos): Montagem de equipamentos Mono-Split, Multi-Split e Condutas ocultas em teto falso.
+- [Marcas Representadas](https://ehs-climatizacao.vercel.app/#servicos): Daikin, Mitsubishi Electric, Fujitsu, Samsung, LG, Midea, Haier, Bosch.
+
+### 2. Sistemas Solares Fotovoltaicos (Autoconsumo Energético)
+- [Instalação Solar Fotovoltaica](https://ehs-climatizacao.vercel.app/#servicos): Dimensionamento de sistemas fotovoltaicos para autoconsumo doméstico e industrial com e sem baterias de armazenamento.
+
+### 3. Aquecimento de Água (Termossifão & Solar Térmico)
+- [Termossifão & Bombas de Calor](https://ehs-climatizacao.vercel.app/#servicos): Instalação, manutenção e reparação de painéis solares térmicos, termossifão, aquecedores e termoacumuladores sanitários.
+
+### 4. Ferramentas Interativas & Agendamento
+- [Simulador de BTUs Interativo](https://ehs-climatizacao.vercel.app/#simulador-btu): Ferramenta técnica para cálculo exato de capacidade térmica (BTU/h e kW) de acordo com m², exposição solar, isolamento e ocupação.
+- [Pedido de Orçamento Gratuito](https://ehs-climatizacao.vercel.app/#lead-form-section): Visita técnica e orçamento 100% gratuito num raio de 30 km da sede.
