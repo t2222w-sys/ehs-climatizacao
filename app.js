@@ -3,9 +3,69 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-  
+
   const navbar = document.querySelector('.navbar-framer');
-  
+
+  // =========================================================================
+  // 0. SISTEMA DE TRADUÇÃO PT / EN (i18n)
+  // =========================================================================
+  const t = window.translations || {};
+  let currentLang = localStorage.getItem('ehsLang') || 'pt';
+
+  function applyTranslations(lang) {
+    if (!t[lang]) return;
+    const dict = t[lang];
+
+    // Elementos com data-i18n (textContent simples)
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) {
+        // Se a tradução contiver HTML usa innerHTML, senão textContent
+        if (dict[key].includes('<') || dict[key].includes('&')) {
+          el.innerHTML = dict[key];
+        } else {
+          el.textContent = dict[key];
+        }
+      }
+    });
+
+    // Elementos com data-i18n-ph (placeholders)
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      const key = el.getAttribute('data-i18n-ph');
+      if (dict[key] !== undefined) el.placeholder = dict[key];
+    });
+
+    // Elementos com data-i18n-aria (aria-label)
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      const key = el.getAttribute('data-i18n-aria');
+      if (dict[key] !== undefined) el.setAttribute('aria-label', dict[key]);
+    });
+
+    // Atualizar o atributo lang do HTML
+    document.documentElement.lang = lang === 'pt' ? 'pt-PT' : 'en';
+
+    // Sincronizar botões activos (desktop + mobile)
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    currentLang = lang;
+    localStorage.setItem('ehsLang', lang);
+  }
+
+  // Ligar todos os botões de idioma (desktop + mobile overlay)
+  document.querySelectorAll('.lang-btn[data-lang]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      applyTranslations(btn.dataset.lang);
+    });
+  });
+
+  // Aplicar idioma guardado ao carregar
+  applyTranslations(currentLang);
+
+  // Expõe currentLang para outras funções
+  window.getCurrentLang = () => currentLang;
+
   // 1. ANIMAÇÕES AO SCROLL (INTERSECTION OBSERVER)
   const revealElements = document.querySelectorAll('.reveal');
   
@@ -45,89 +105,185 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2000); // 2 segundos de atraso
   }
 
-  // 4. SIMULADOR DE POUPANÇA ENERGÉTICA & ROI
-  const calcBill = document.getElementById('calcBill');
-  const calcBillVal = document.getElementById('calcBillVal');
-  const calcSystem = document.getElementById('calcSystem');
-  const toggleEV = document.getElementById('toggleEV');
-  const togglePool = document.getElementById('togglePool');
-  const resCost = document.getElementById('resCost');
-  const resSavingsYear = document.getElementById('resSavingsYear');
-  const resRoi = document.getElementById('resRoi');
-  const resSavings10Years = document.getElementById('resSavings10Years');
+  // 4. SIMULADOR DE BTUs PARA AR CONDICIONADO (LAYOUT COMPLETO)
+  const btuSimArea = document.getElementById('btuSimArea');
+  const btuSimPeople = document.getElementById('btuSimPeople');
+  const btuSimSun = document.getElementById('btuSimSun');
+  const btuSimLocation = document.getElementById('btuSimLocation');
+  const btuSimInsulation = document.getElementById('btuSimInsulation');
+  const btuSimDevices = document.getElementById('btuSimDevices');
+  const btuCalcBtn = document.getElementById('btuCalcBtn');
+  const btuPlaceholder = document.getElementById('btuPlaceholder');
+  const btuResult = document.getElementById('btuResult');
+  const btuResultValue = document.getElementById('btuResultValue');
+  const btuResultKw = document.getElementById('btuResultKw');
+  const btuResultDesc = document.getElementById('btuResultDesc');
+  const btuResultParams = document.getElementById('btuResultParams');
+  const btuWaBtn = document.getElementById('btuWaBtn');
 
-  function calculateSavings() {
-    if (!calcBill || !calcSystem || !resSavingsYear || !resRoi || !resSavings10Years) return;
+  function calculateBtuNew() {
+    if (!btuSimArea) return;
 
-    const monthlyBill = parseFloat(calcBill.value);
-    if (calcBillVal) {
-      calcBillVal.textContent = `${monthlyBill}€`;
+    const area = parseFloat(btuSimArea.value);
+
+    // Validação se o utilizador não preencheu a área
+    if (isNaN(area) || area <= 0) {
+      if (btuPlaceholder && btuResult) {
+        btuPlaceholder.style.display = 'block';
+        btuResult.style.display = 'none';
+      }
+      btuSimArea.focus();
+      btuSimArea.style.borderColor = '#EF4444';
+      setTimeout(() => { btuSimArea.style.borderColor = ''; }, 2000);
+      return;
     }
 
-    const systemType = calcSystem.value;
-    const hasEV = toggleEV ? toggleEV.checked : false;
-    const hasPool = togglePool ? togglePool.checked : false;
+    // 1. Carga térmica base por m² consoante sol
+    let baseFactor = 600; // BTU/m²
+    const sunVal = btuSimSun ? btuSimSun.value : 'medium';
+    if (sunVal === 'medium') baseFactor = 700;
+    if (sunVal === 'high') baseFactor = 800;
 
-    let savingsRate = 0.50; // Taxa de poupança base
-    let systemCost = 3500;  // Custo de instalação base
+    let totalBtu = area * baseFactor;
 
-    if (systemType === 'solar') {
-      savingsRate = 0.65;
-      systemCost = 3200;
-      if (hasEV) {
-        savingsRate += 0.12; // Carro elétrico aumenta significativamente o autoconsumo diário
-        systemCost += 1800;  // Custo de painéis adicionais + carregador inteligente
-      }
-      if (hasPool) {
-        savingsRate += 0.08; // Bomba de calor e filtragem consomem energia solar direta
-        systemCost += 1200;  // Painéis adicionais e dimensionamento técnico
-      }
-    } else if (systemType === 'heatpump') {
-      savingsRate = 0.55;
-      systemCost = 4500;
-      if (hasPool) {
-        savingsRate += 0.15; // Integração direta com aquecimento de água da piscina
-        systemCost += 2800;  // Trocador de calor de alta capacidade
-      }
-    } else if (systemType === 'both') {
-      savingsRate = 0.80;
-      systemCost = 7200;
-      if (hasEV) {
-        savingsRate += 0.08;
-        systemCost += 1800;
-      }
-      if (hasPool) {
-        savingsRate += 0.07;
-        systemCost += 2800;
-      }
+    // 2. Extra por número de pessoas (1ª pessoa incluída, +600 BTU/pessoa adicional)
+    const peopleCount = parseInt(btuSimPeople ? btuSimPeople.value : '2', 10);
+    if (peopleCount > 1) {
+      totalBtu += (peopleCount - 1) * 600;
     }
 
-    // Limitar a taxa máxima de poupança a 95%
-    if (savingsRate > 0.95) savingsRate = 0.95;
+    // 3. Fator de localização (andar superior / terraço tem mais exposição)
+    const locVal = btuSimLocation ? btuSimLocation.value : 'mid';
+    if (locVal === 'top') totalBtu *= 1.15; // +15%
 
-    const annualSavings = monthlyBill * 12 * savingsRate;
-    const roiYears = systemCost / annualSavings;
-    const savings10Y = (annualSavings * 10) - systemCost;
+    // 4. Fator de isolamento
+    const insVal = btuSimInsulation ? btuSimInsulation.value : 'good';
+    if (insVal === 'poor') totalBtu *= 1.20; // +20%
+    if (insVal === 'excellent') totalBtu *= 0.90; // -10%
 
-    // Atualização de elementos no DOM
-    if (resCost) {
-      resCost.textContent = `${Math.round(systemCost)}€`;
+    // 5. Carga de equipamentos eletrónicos
+    const devVal = btuSimDevices ? btuSimDevices.value : 'few';
+    if (devVal === 'medium') totalBtu += 600;
+    if (devVal === 'many') totalBtu += 1200;
+
+    // Arredondamento comercial para potências standard
+    let finalBtu = 12000;
+    let finalKw = '3.5 kW';
+    let descText = 'Recomendado para o seu espaço com excelente equilíbrio entre arrefecimento rápido e baixo consumo.';
+
+    if (totalBtu <= 7500) {
+      finalBtu = 7500;
+      finalKw = '2.2 kW';
+      descText = `Ideal para divisões compactas (até ${area} m²) com necessidade reduzida de climatização.`;
+    } else if (totalBtu <= 10000) {
+      finalBtu = 9000;
+      finalKw = '2.5 kW';
+      descText = `Recomendado para quartos ou escritórios (até ${area} m²) garantindo conforto ideal.`;
+    } else if (totalBtu <= 13500) {
+      finalBtu = 12000;
+      finalKw = '3.5 kW';
+      descText = `Ideal para salas de estar ou suítes médias (até ${area} m²).`;
+    } else if (totalBtu <= 16500) {
+      finalBtu = 15000;
+      finalKw = '4.2 kW';
+      descText = `Recomendado para salas amplas ou com maior carga térmica acumulada.`;
+    } else if (totalBtu <= 19500) {
+      finalBtu = 18000;
+      finalKw = '5.0 kW';
+      descText = `Elevada capacidade de climatização para espaços abertos e salas grandes.`;
+    } else if (totalBtu <= 23500) {
+      finalBtu = 21000;
+      finalKw = '6.0 kW';
+      descText = `Potência elevada para grandes divisões ou espaços com forte exposição solar.`;
+    } else if (totalBtu <= 28000) {
+      finalBtu = 24000;
+      finalKw = '7.0 kW';
+      descText = `Excelente capacidade para open spaces, moradias amplas ou espaços comerciais.`;
+    } else if (totalBtu <= 34000) {
+      finalBtu = 30000;
+      finalKw = '8.5 kW';
+      descText = `Capacidade máxima individual para grandes salões ou escritórios abertos.`;
+    } else {
+      finalBtu = 36000;
+      finalKw = '10.0 kW (Multi-Split / Condutas)';
+      descText = `Recomendada a instalação de sistema Multi-Split ou condutas para cobrir a elevada área e carga térmica.`;
     }
-    resSavingsYear.textContent = `${Math.round(annualSavings)}€`;
-    resRoi.textContent = `${roiYears.toFixed(1)} ${roiYears.toFixed(1) === '1.0' ? 'ano' : 'anos'}`;
-    resSavings10Years.textContent = `${Math.round(savings10Y)}€`;
+
+    const btuFormatted = finalBtu >= 36000 ? '36.000+ BTU/h' : `${finalBtu.toLocaleString('pt-PT')} BTU/h`;
+
+    if (btuResultValue) btuResultValue.textContent = btuFormatted;
+    if (btuResultKw) btuResultKw.textContent = `≈ ${finalKw}`;
+    if (btuResultDesc) btuResultDesc.textContent = descText;
+
+    // Gerar tags dos 6 parâmetros selecionados na UI
+    const sunLabels = { low: 'Pouco Sol', medium: 'Sol Moderado', high: 'Muito Sol' };
+    const locLabels = { ground: 'Rés-do-chão', mid: 'Andar Intermédio', top: 'Último Andar' };
+    const insLabels = { poor: 'Isolamento Fraco', good: 'Isolamento Bom', excellent: 'Isolamento Excelente' };
+    const devLabels = { few: 'Poucos Equipamentos', medium: 'Equipamentos Moderados', many: 'Muitos Equipamentos' };
+
+    if (btuResultParams) {
+      btuResultParams.innerHTML = `
+        <span class="btu-param-tag">📐 ${area} m²</span>
+        <span class="btu-param-tag">👥 ${peopleCount} p.</span>
+        <span class="btu-param-tag">☀️ ${sunLabels[sunVal] || 'Sol'}</span>
+        <span class="btu-param-tag">🏢 ${locLabels[locVal] || ''}</span>
+        <span class="btu-param-tag">🏠 ${insLabels[insVal] || ''}</span>
+        <span class="btu-param-tag">💻 ${devLabels[devVal] || ''}</span>
+      `;
+    }
+
+    // Criar mensagem completa de WhatsApp com TODOS os parâmetros da simulação
+    const msgLines = [
+      `Olá! Fiz uma simulação de BTUs no site EHS com as seguintes características:`,
+      `• Área: ${area} m²`,
+      `• Pessoas: ${peopleCount}`,
+      `• Exposição Solar: ${sunLabels[sunVal] || sunVal}`,
+      `• Localização: ${locLabels[locVal] || locVal}`,
+      `• Isolamento: ${insLabels[insVal] || insVal}`,
+      `• Equipamentos: ${devLabels[devVal] || devVal}`,
+      ``,
+      `Potência Recomendada: ${btuFormatted} (≈ ${finalKw})`,
+      ``,
+      `Gostaria de solicitar um orçamento gratuito e apoio técnico para a minha habitação.`
+    ];
+
+    const waUrl = `https://wa.me/351926466333?text=${encodeURIComponent(msgLines.join('\n'))}`;
+
+    if (btuWaBtn) {
+      btuWaBtn.href = waUrl;
+    }
+
+    // Mostrar resultado e ocultar placeholder
+    if (btuPlaceholder && btuResult) {
+      btuPlaceholder.style.display = 'none';
+      btuResult.style.display = 'block';
+
+      // Scroll suave até ao resultado se estiver em mobile
+      if (window.innerWidth < 900) {
+        btuResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
   }
 
-  if (calcBill && calcSystem) {
-    // Evento 'input' para atualizar instantaneamente enquanto se arrasta o slider
-    calcBill.addEventListener('input', calculateSavings);
-    calcSystem.addEventListener('change', calculateSavings);
-    
-    if (toggleEV) toggleEV.addEventListener('change', calculateSavings);
-    if (togglePool) togglePool.addEventListener('change', calculateSavings);
-
-    calculateSavings(); // Cálculo inicial
+  // Ao clicar em Calcular BTU, APENAS mostra o resultado no ecrã (SEM redirecionar logo para o WhatsApp)
+  if (btuCalcBtn) {
+    btuCalcBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      calculateBtuNew();
+    });
   }
+
+  // Recalcular automaticamente ao mudar seleções (se o resultado já estiver visível)
+  [btuSimArea, btuSimPeople, btuSimSun, btuSimLocation, btuSimInsulation, btuSimDevices].forEach(elem => {
+    if (elem) {
+      elem.addEventListener('change', () => {
+        if (btuResult && btuResult.style.display === 'block') {
+          calculateBtuNew();
+        }
+      });
+    }
+  });
+
 
   // 5. FAQ ACORDEÃO (TEMA CLARO)
   const faqItems = document.querySelectorAll('.faq-item-clear');
@@ -160,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 6. FORMULÁRIO DE CAPTAÇÃO DE LEADS NO RODAPÉ
+  // 6. FORMULÁRIO DE CAPTAÇÃO DE LEADS NO RODAPÉ (ENVIO REAL DE EMAIL POR PLATAFORMA GRATUITA FORMSUBMIT)
   const footerBookingForm = document.getElementById('footerBookingForm');
   const footerSuccessMessage = document.getElementById('footerSuccessMessage');
   const footerServiceSelect = document.getElementById('footerService');
@@ -171,27 +327,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const name = document.getElementById('footerName').value.trim();
       const phone = document.getElementById('footerPhone').value.trim();
+      const emailInput = document.getElementById('footerEmail');
+      const email = emailInput ? emailInput.value.trim() : '';
       const service = footerServiceSelect.value;
+      const message = document.getElementById('footerMessage').value.trim();
 
-      if (!name || !phone) {
-        alert('Por favor, preencha o seu nome e telefone.');
+      if (!name || !phone || !email || !message) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
         return;
       }
 
-      // Ocultar formulário e exibir mensagem de sucesso
-      footerBookingForm.style.display = 'none';
-      
-      if (footerSuccessMessage) {
-        footerSuccessMessage.style.display = 'block';
-        footerSuccessMessage.classList.add('reveal', 'active');
+      const submitBtn = footerBookingForm.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn ? submitBtn.textContent : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'A enviar pedido...';
       }
 
-      // Log do lead simulado
-      console.log('Lead Recebida (Framer Web):', {
-        name,
-        phone,
-        service,
-        timestamp: new Date().toISOString()
+      // Enviar via AJAX para o e-mail oficial através do FormSubmit
+      fetch("https://formsubmit.co/ajax/geral@elitehomeservices.pt", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Nome: name,
+          Telefone: phone,
+          Email: email,
+          Servico: service,
+          Mensagem: message,
+          _subject: "Novo Contacto / Pedido de Orçamento - EHS Website"
+        })
+      })
+      .then(response => {
+        if (response.ok) {
+          // Ocultar formulário e exibir mensagem de sucesso
+          footerBookingForm.style.display = 'none';
+          if (footerSuccessMessage) {
+            footerSuccessMessage.style.display = 'block';
+            footerSuccessMessage.classList.add('reveal', 'active');
+          }
+        } else {
+          throw new Error('Falha no envio do email.');
+        }
+      })
+      .catch(error => {
+        console.error('Erro de envio:', error);
+        alert('Ocorreu um erro ao enviar o seu pedido por e-mail. Por favor, tente novamente ou contacte-nos diretamente por telefone ou WhatsApp.');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
+        }
       });
     });
   }
@@ -293,7 +480,6 @@ document.addEventListener('DOMContentLoaded', () => {
           setTimeout(() => {
             const navbarHeight = navbar ? navbar.offsetHeight : 80;
             const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navbarHeight;
-            
             window.scrollTo({
               top: targetPosition,
               behavior: 'smooth'
@@ -304,27 +490,64 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 10. VISIBILIDADE DO STICKY CTA MÓVEL (CRO)
-  const stickyMobileCta = document.getElementById('stickyMobileCta');
-  const whatsappWrapper = document.querySelector('.whatsapp-wrapper');
-  if (stickyMobileCta) {
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      const documentHeight = document.documentElement.scrollHeight;
-      const windowHeight = window.innerHeight;
-      
-      // Surge após scroll de 500px e oculta ao chegar próximo do formulário do rodapé
-      if (scrollY > 500 && (documentHeight - scrollY - windowHeight > 450)) {
-        stickyMobileCta.classList.add('visible');
-        if (whatsappWrapper) {
-          whatsappWrapper.classList.add('shifted');
-        }
-      } else {
-        stickyMobileCta.classList.remove('visible');
-        if (whatsappWrapper) {
-          whatsappWrapper.classList.remove('shifted');
-        }
+  // 10. COOKIES E MODAL DE POLÍTICA DE PRIVACIDADE
+  const cookieConsentBanner = document.getElementById('cookieConsentBanner');
+  const acceptCookiesBtn = document.getElementById('acceptCookiesBtn');
+  const rejectCookiesBtn = document.getElementById('rejectCookiesBtn');
+  const privacyModal = document.getElementById('privacyModal');
+  const openPrivacyBtn = document.getElementById('openPrivacyBtn');
+  const closePrivacyBtn = document.getElementById('closePrivacyBtn');
+  const agreePrivacyBtn = document.getElementById('agreePrivacyBtn');
+  const cookiePrivacyLink = document.getElementById('cookiePrivacyLink');
+
+  // Gestão de Cookies
+  if (cookieConsentBanner && acceptCookiesBtn && rejectCookiesBtn) {
+    const cookieConsent = localStorage.getItem('ehsCookieConsent');
+    if (!cookieConsent) {
+      setTimeout(() => {
+        cookieConsentBanner.style.transform = 'translateX(-50%) translateY(0)';
+      }, 1000);
+    }
+
+    acceptCookiesBtn.addEventListener('click', () => {
+      localStorage.setItem('ehsCookieConsent', 'accepted');
+      cookieConsentBanner.style.transform = 'translateX(-50%) translateY(150%)';
+    });
+
+    rejectCookiesBtn.addEventListener('click', () => {
+      localStorage.setItem('ehsCookieConsent', 'rejected');
+      cookieConsentBanner.style.transform = 'translateX(-50%) translateY(150%)';
+    });
+  }
+
+  // Gestão do Modal de Privacidade
+  if (privacyModal) {
+    const openModal = (e) => {
+      e.preventDefault();
+      privacyModal.style.visibility = 'visible';
+      privacyModal.style.opacity = '1';
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeModal = () => {
+      privacyModal.style.opacity = '0';
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        privacyModal.style.visibility = 'hidden';
+      }, 400);
+    };
+
+    if (openPrivacyBtn) openPrivacyBtn.addEventListener('click', openModal);
+    if (cookiePrivacyLink) cookiePrivacyLink.addEventListener('click', openModal);
+    if (closePrivacyBtn) closePrivacyBtn.addEventListener('click', closeModal);
+    if (agreePrivacyBtn) agreePrivacyBtn.addEventListener('click', closeModal);
+
+    // Fechar modal ao clicar fora
+    privacyModal.addEventListener('click', (e) => {
+      if (e.target === privacyModal) {
+        closeModal();
       }
     });
   }
+
 });
