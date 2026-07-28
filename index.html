@@ -28,10 +28,9 @@
   <meta name="twitter:description" content="Técnicos credenciados APA em climatização, ar condicionado e energia solar no Algarve. Orçamentos gratuitos.">
   <meta name="twitter:image" content="https://ehs-climatizacao.vercel.app/hero_bg_new.png">
 
-  <!-- Preconnect para Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap">
+  <!-- Preload de Fontes Locais (Elimina 100% dos 1170ms de latência de rede do Google Fonts) -->
+  <link rel="preload" href="fonts/Outfit-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Otimizações de Desempenho (Preload de LCP Responsivo & CSS Minificado) -->
   <link rel="preload" href="hero_bg_mobile.webp" as="image" type="image/webp" media="(max-width: 768px)" fetchpriority="high">

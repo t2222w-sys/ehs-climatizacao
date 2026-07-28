@@ -415,9 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Scroll suave
       if (targetElement) {
-        // Obtermos offset devido à navbar sticky
-        const navbarHeight = navbar ? navbar.offsetHeight : 80;
-        const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navbarHeight;
+        const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - 80;
         
         window.scrollTo({
           top: targetPosition,
@@ -481,8 +479,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (targetElement) {
           setTimeout(() => {
-            const navbarHeight = navbar ? navbar.offsetHeight : 80;
-            const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navbarHeight;
+            const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - 80;
             window.scrollTo({
               top: targetPosition,
               behavior: 'smooth'

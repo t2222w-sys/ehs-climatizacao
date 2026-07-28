@@ -1,6 +1,19 @@
-/* ==========================================================================
-   EHS HOME SERVICES - DUAL TONE DESIGN SYSTEM (FRAMER STYLE)
-   ========================================================================== */
+/* Importação de Fontes Locais (Elimina requisições de rede para Google Fonts) */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url('fonts/Outfit-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('fonts/Inter-Regular.woff2') format('woff2');
+}
 
 :root {
   /* Fontes */
