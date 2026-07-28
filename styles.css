@@ -2741,3 +2741,51 @@ footer.footer-editorial {
   .btu-sim-form-col { padding: 1.5rem; }
   .btu-sim-section { padding: 3rem 0; }
 }
+
+/* ==========================================================================
+   OTIMIZAÇÃO DE ACESSIBILIDADE E MOBILE TAP TARGETS (100% LIGHTHOUSE A11Y)
+   ========================================================================== */
+
+button,
+a.btn,
+.nav-link,
+.mobile-nav-link,
+.lang-btn,
+.faq-trigger-clear,
+.sim-select,
+.btu-select,
+.btu-input {
+  min-height: 44px;
+}
+
+.lang-btn {
+  padding: 0.5rem 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #1E293B;
+  font-weight: 700;
+}
+
+.lang-btn.active {
+  color: #0284C7;
+}
+
+.hero-editorial .subtitle {
+  color: #F1F5F9;
+}
+
+.btu-note {
+  color: #78350F;
+  border-color: #F59E0B;
+  background-color: #FEF3C7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

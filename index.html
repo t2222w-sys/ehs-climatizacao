@@ -28,7 +28,8 @@
   <meta name="twitter:description" content="Técnicos credenciados APA em climatização, ar condicionado e energia solar no Algarve. Orçamentos gratuitos.">
   <meta name="twitter:image" content="https://ehs-climatizacao.vercel.app/hero_bg_new.png">
 
-  <!-- Otimizações de Desempenho (Preconnect & Preload) -->
+  <!-- Otimizações de Desempenho (Preload de LCP & Imagens Críticas) -->
+  <link rel="preload" href="hero_bg_new.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="preload" href="styles.css" as="style">
   <link rel="stylesheet" href="styles.css">
   <script src="translations.js"></script>
@@ -144,7 +145,7 @@
     <nav class="navbar-framer">
       <div class="nav-container">
         <a href="#" class="logo">
-          <img src="logo/Logo ehs.png" alt="EHS Home Services">
+          <img src="logo/Logo ehs.webp" alt="EHS Home Services" width="160" height="45" fetchpriority="high">
         </a>
         <ul class="nav-menu">
           <li><a href="#higienizacao" data-scroll-to class="nav-link" data-i18n="nav_higienizacao">Higienização</a></li>
@@ -199,7 +200,7 @@
   </div>
 
   <!-- 1. HERO SECTION (FUNDO ESCURO COM INDICADORES DE CONFIANÇA) -->
-  <section class="hero-editorial theme-dark" style="background-image: url('hero_bg_new.png');">
+  <section class="hero-editorial theme-dark" style="background-image: url('hero_bg_new.webp');">
     <div class="hero-overlay"></div>
     <div class="container">
       <div class="reveal">
@@ -254,10 +255,10 @@
           <!-- Slider Interativo Antes/Depois de Higienização -->
           <div class="before-after-slider reveal">
             <div class="img-container img-after">
-              <img src="trabalhos/higienizacao_depois.png" alt="Turbina Higienizada e Limpa" loading="lazy" decoding="async">
+              <img src="trabalhos/higienizacao_depois.webp" alt="Turbina Higienizada e Limpa" width="600" height="400" loading="lazy" decoding="async">
             </div>
             <div class="img-container img-before">
-              <img src="trabalhos/higienizacao_antes.png" alt="Turbina com Bolores e Sujidade" loading="lazy" decoding="async">
+              <img src="trabalhos/higienizacao_antes.webp" alt="Turbina com Bolores e Sujidade" width="600" height="400" loading="lazy" decoding="async">
             </div>
             <input type="range" min="0" max="100" value="50" class="slider-range" id="beforeAfterRange" aria-label="Controlo deslizante de higienização antes e depois">
             <div class="slider-bar">
@@ -307,29 +308,29 @@
         <!-- Serviço 1 -->
         <div class="catalog-item reveal">
           <div class="catalog-image-wrapper">
-            <img src="service_ac_install.png" alt="Instalação, Manutenção e Assistência Técnica de Ar Condicionado no Algarve" loading="lazy" decoding="async">
+            <img src="service_ac_install.webp" alt="Instalação, Manutenção e Assistência Técnica de Ar Condicionado no Algarve" width="400" height="280" loading="lazy" decoding="async">
           </div>
           <h3 data-i18n="service1_title">Ar Condicionado: Venda, Instalação & Assistência</h3>
           <p data-i18n="service1_desc">Venda, planeamento e montagem de sistemas de ar condicionado doméstico ou comercial com acabamentos ocultos. Higienização química profunda, manutenção preventiva de rendimento e assistência técnica rápida a avarias.</p>
-          <a href="#lead-form-section" data-scroll-to data-service="Venda, Instalação e Assistência de Ar Condicionado" class="catalog-link" data-i18n="service1_link">
-            Descobrir serviço &rarr;
+          <a href="#lead-form-section" data-scroll-to data-service="Venda, Instalação e Assistência de Ar Condicionado" class="catalog-link">
+            <span data-i18n="service_link">Descobrir serviço</span> &rarr;
           </a>
         </div>
         <!-- Serviço 2 -->
         <div class="catalog-item reveal">
           <div class="catalog-image-wrapper">
-            <img src="service_solar_panels.png" alt="Venda, Instalação e Manutenção de Painéis Fotovoltaicos no Algarve" loading="lazy" decoding="async">
+            <img src="service_solar_panels.webp" alt="Venda, Instalação e Manutenção de Painéis Fotovoltaicos no Algarve" width="400" height="280" loading="lazy" decoding="async">
           </div>
           <h3 data-i18n="service2_title">Painéis Fotovoltaicos: Venda, Instalação & Apoio</h3>
           <p data-i18n="service2_desc">Venda, dimensionamento e instalação profissional de painéis solares fotovoltaicos para autoconsumo doméstico e industrial. Manutenção periódica e assistência técnica para garantir o máximo rendimento solar.</p>
-          <a href="#lead-form-section" data-scroll-to data-service="Sistemas Solares Fotovoltaicos" class="catalog-link" data-i18n="service2_link">
-            Descobrir serviço &rarr;
+          <a href="#lead-form-section" data-scroll-to data-service="Sistemas Solares Fotovoltaicos" class="catalog-link">
+            <span data-i18n="service_link">Descobrir serviço</span> &rarr;
           </a>
         </div>
         <!-- Serviço 3 -->
         <div class="catalog-item reveal">
           <div class="catalog-image-wrapper">
-            <img src="service_water_heating.png" alt="Painel Solar Térmico, Aquecedores e Termossifão" loading="lazy" decoding="async">
+            <img src="service_water_heating.webp" alt="Painel Solar Térmico, Aquecedores e Termossifão" width="400" height="280" loading="lazy" decoding="async">
           </div>
           <h3 data-i18n="service3_title">Aquecimento de Água: Termossifão & Solar Térmico</h3>
           <p data-i18n="service3_desc">Venda, instalação, manutenção e assistência técnica para painéis solares térmicos de aquecimento de água, sistemas de termossifão, aquecedores de água e termoacumuladores inteligentes. Água quente assegurada com baixo consumo.</p>
