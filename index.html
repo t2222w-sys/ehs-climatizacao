@@ -28,84 +28,15 @@
   <meta name="twitter:description" content="Técnicos credenciados APA em climatização, ar condicionado e energia solar no Algarve. Orçamentos gratuitos.">
   <meta name="twitter:image" content="https://ehs-climatizacao.vercel.app/hero_bg_new.png">
 
-  <!-- Preconnect para Google Fonts & Fontes Assíncronas (Elimina latência de 1890ms) -->
+  <!-- Preconnect para Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"></noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap">
 
-  <!-- Critical Above-The-Fold CSS (Pintura Instantânea em <0.3s) -->
-  <style id="critical-css">
-    :root {
-      --font-title: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      --font-mono: monospace;
-      --dark-bg: #0F172A;
-      --dark-text: #F8FAFC;
-      --dark-text-muted: #94A3B8;
-      --dark-border: rgba(255, 255, 255, 0.06);
-      --light-bg: #F1F5F9;
-      --light-text: #0F172A;
-      --light-text-muted: #475569;
-      --light-border: rgba(15, 23, 42, 0.08);
-      --accent: #0EA5E9;
-      --accent-hover: #0284C7;
-      --accent-light: rgba(14, 165, 233, 0.08);
-      --whatsapp: #25D366;
-      --transition-editorial: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      --max-width: 1200px;
-      --border-radius: 12px;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; font-size: 16px; background-color: var(--dark-bg); color: var(--dark-text); font-family: var(--font-body); overflow-x: hidden; width: 100%; }
-    body { overflow-x: hidden; width: 100%; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-    .theme-dark { background-color: var(--dark-bg); color: var(--dark-text); }
-    .theme-dark h1, .theme-dark h2, .theme-dark h3 { color: #FFFFFF; }
-    .theme-dark p { color: var(--dark-text-muted); }
-    .theme-light { background-color: var(--light-bg); color: var(--light-text); }
-    h1, h2, h3 { font-family: var(--font-title); font-weight: 700; line-height: 1.15; }
-    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 2.2rem; font-family: var(--font-title); font-size: 0.95rem; font-weight: 600; border-radius: var(--border-radius); border: none; cursor: pointer; transition: var(--transition-editorial); min-height: 44px; text-decoration: none; }
-    .btn-primary-gold { background-color: var(--accent); color: #FFFFFF; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.2); }
-    .btn-outline-gold { background-color: transparent; color: var(--accent); border: 1px solid var(--accent); }
-    .container { max-width: var(--max-width); margin: 0 auto; }
-    .reveal { opacity: 1; transform: translateY(0); }
-    .main-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none; }
-    .top-bar-marquee { background-color: var(--accent); color: var(--dark-bg); overflow: hidden; height: 38px; display: flex; align-items: center; font-family: var(--font-title); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; pointer-events: auto; }
-    .marquee-track { display: flex; width: max-content; animation: marquee 25s linear infinite; }
-    .marquee-content { display: flex; align-items: center; gap: 3rem; padding-right: 3rem; white-space: nowrap; }
-    .marquee-content span { display: flex; align-items: center; gap: 0.5rem; }
-    .marquee-content span::after { content: "•"; margin-left: 3rem; color: rgba(9, 9, 11, 0.4); }
-    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-    .navbar-framer { width: calc(100% - 32px); max-width: var(--max-width); margin: 10px auto 0 auto; background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 14px; padding: 0.75rem 2rem; pointer-events: auto; }
-    .nav-container { max-width: var(--max-width); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; width: 100%; }
-    .logo { font-family: var(--font-title); font-size: 1.5rem; font-weight: 800; color: var(--light-text); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
-    .logo img { height: 45px; width: auto; object-fit: contain; display: block; }
-    .nav-menu { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-link { font-family: var(--font-title); font-size: 0.95rem; font-weight: 500; color: var(--light-text-muted); text-decoration: none; }
-    .hero-editorial { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; padding-top: 9.5rem; padding-bottom: 2rem; }
-    .hero-bg-picture, .hero-bg-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0; pointer-events: none; }
-    .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(9, 9, 11, 0.45) 0%, rgba(9, 9, 11, 0.75) 100%); z-index: 1; }
-    .hero-editorial .container { position: relative; z-index: 2; text-align: center; max-width: 900px; }
-    .hero-badge { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.45rem 1.1rem; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 50px; color: #38BDF8; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-family: var(--font-mono); margin-bottom: 1.25rem; }
-    .hero-badge::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background-color: #38BDF8; box-shadow: 0 0 10px #38BDF8; }
-    .hero-editorial h1 { font-size: 3rem; margin-bottom: 1rem; letter-spacing: -1.5px; }
-    .hero-editorial .subtitle { font-size: 1.1rem; color: #F1F5F9; margin-bottom: 1.5rem; line-height: 1.6; max-width: 700px; margin-left: auto; margin-right: auto; }
-    .hero-cta-center { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
-    @media (max-width: 768px) {
-      .hero-editorial h1 { font-size: 2.1rem !important; }
-      .hero-editorial .subtitle { font-size: 0.95rem !important; }
-      .nav-menu { display: none; }
-      .navbar-framer { padding: 0.6rem 1.2rem; width: calc(100% - 24px); }
-      .logo img { height: 42px; }
-    }
-  </style>
-
-  <!-- Otimizações de Desempenho (Preload de LCP Responsivo & Non-Blocking CSS/JS) -->
+  <!-- Otimizações de Desempenho (Preload de LCP Responsivo & CSS Minificado) -->
   <link rel="preload" href="hero_bg_mobile.webp" as="image" type="image/webp" media="(max-width: 768px)" fetchpriority="high">
   <link rel="preload" href="hero_bg_new.webp" as="image" type="image/webp" media="(min-width: 769px)" fetchpriority="high">
-  <link rel="preload" href="styles.min.css" as="style">
-  <link rel="stylesheet" href="styles.min.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="styles.min.css"></noscript>
+  <link rel="stylesheet" href="styles.min.css">
   <script src="translations.min.js" defer></script>
 
   <!-- JSON-LD Structured Data (Schema.org para Google & Motores de IA) -->
