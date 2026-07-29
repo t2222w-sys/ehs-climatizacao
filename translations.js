@@ -2,7 +2,7 @@ window.translations = {
   pt: {
     // Barra de Avisos Superior
     top_bar_1: "Técnicos Credenciados APA",
-    top_bar_2: "7 Anos de Experiência Local",
+    top_bar_2: "15 Anos de Experiência Local",
     top_bar_3: "Garantia de Instalação por Escrito",
     top_bar_4: "Venda, Instalação e Manutenção",
     top_bar_5: "Assistência AVAC em Todo o Algarve",
@@ -278,7 +278,7 @@ window.translations = {
   en: {
     // Top Banner
     top_bar_1: "APA Certified Technicians",
-    top_bar_2: "7 Years of Local Experience",
+    top_bar_2: "15 Years of Local Experience",
     top_bar_3: "Written Installation Warranty",
     top_bar_4: "Sales, Installation and Maintenance",
     top_bar_5: "HVAC Support Throughout the Algarve",

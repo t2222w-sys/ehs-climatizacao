@@ -17,16 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const dict = allTranslations[lang];
     if (!dict) return;
 
-    // Elementos com data-i18n (textContent simples)
+    // Elementos com data-i18n (textContent simples ou HTML)
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
       if (dict[key] !== undefined) {
         const val = dict[key];
         const isHtml = val.includes('<') || val.includes('&');
         if (isHtml) {
-          if (el.innerHTML !== val) el.innerHTML = val;
+          el.innerHTML = val;
         } else {
-          if (el.textContent !== val) el.textContent = val;
+          el.textContent = val;
         }
       }
     });
@@ -48,7 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Sincronizar botões activos (desktop + mobile)
     document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.lang === lang);
+      const btnLang = btn.getAttribute('data-lang');
+      btn.classList.toggle('active', btnLang === lang);
     });
 
     currentLang = lang;
@@ -56,9 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Ligar todos os botões de idioma (desktop + mobile overlay)
-  document.querySelectorAll('.lang-btn[data-lang]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      applyTranslations(btn.dataset.lang);
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const lang = e.currentTarget.getAttribute('data-lang');
+      if (lang) {
+        applyTranslations(lang);
+      }
     });
   });
 
