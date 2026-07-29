@@ -9,8 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   // 0. SISTEMA DE TRADUÇÃO PT / EN (i18n)
   // =========================================================================
+  const safeStorage = {
+    getItem(key) {
+      try { return localStorage.getItem(key); } catch (e) { return null; }
+    },
+    setItem(key, value) {
+      try { localStorage.setItem(key, value); } catch (e) {}
+    }
+  };
+
   const t = window.translations || {};
-  let currentLang = localStorage.getItem('ehsLang') || 'pt';
+  let currentLang = safeStorage.getItem('ehsLang') || 'pt';
 
   function applyTranslations(lang) {
     const allTranslations = window.translations || {};
@@ -22,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const key = el.getAttribute('data-i18n');
       if (dict[key] !== undefined) {
         const val = dict[key];
-        const isHtml = val.includes('<') || val.includes('&');
+        const isHtml = typeof val === 'string' && (val.includes('<') || val.includes('&'));
         if (isHtml) {
           el.innerHTML = val;
         } else {
@@ -53,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     currentLang = lang;
-    localStorage.setItem('ehsLang', lang);
+    safeStorage.setItem('ehsLang', lang);
   }
 
   // Ligar todos os botões de idioma (desktop + mobile overlay)
@@ -506,7 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Gestão de Cookies
   if (cookieConsentBanner && acceptCookiesBtn && rejectCookiesBtn) {
-    const cookieConsent = localStorage.getItem('ehsCookieConsent');
+    const cookieConsent = safeStorage.getItem('ehsCookieConsent');
     if (!cookieConsent) {
       setTimeout(() => {
         cookieConsentBanner.style.transform = 'translateX(-50%) translateY(0)';
@@ -514,12 +523,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     acceptCookiesBtn.addEventListener('click', () => {
-      localStorage.setItem('ehsCookieConsent', 'accepted');
+      safeStorage.setItem('ehsCookieConsent', 'accepted');
       cookieConsentBanner.style.transform = 'translateX(-50%) translateY(150%)';
     });
 
     rejectCookiesBtn.addEventListener('click', () => {
-      localStorage.setItem('ehsCookieConsent', 'rejected');
+      safeStorage.setItem('ehsCookieConsent', 'rejected');
       cookieConsentBanner.style.transform = 'translateX(-50%) translateY(150%)';
     });
   }
