@@ -160,6 +160,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const isAfternoonSun = (sunVal === 'high');
     const lang = window.getCurrentLang ? window.getCurrentLang() : 'pt';
 
+    // Obter parâmetros adicionais para as tags e a mensagem do WhatsApp
+    const peopleCount = parseInt(btuSimPeople ? btuSimPeople.value : '2', 10);
+    const locVal = btuSimLocation ? btuSimLocation.value : 'mid';
+    const insVal = btuSimInsulation ? btuSimInsulation.value : 'good';
+    const devVal = btuSimDevices ? btuSimDevices.value : 'few';
+
     let finalBtu = 12000;
     let finalKw = '3.5 kW';
     let descText = '';
