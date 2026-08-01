@@ -155,9 +155,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Lógica de cálculo baseada estritamente na folha do utilizador
-    // Mapeamento: Sol de manhã = low / medium; Sol à tarde ou o dia todo = high
+    // Mapeamento:
+    // - low (Sol da manhã) -> Coluna "Sol de Manhã"
+    // - medium (Sol da tarde) ou high (Sol o dia todo) -> Coluna "Sol à Tarde ou o Dia Todo"
     const sunVal = btuSimSun ? btuSimSun.value : 'medium';
-    const isAfternoonSun = (sunVal === 'high');
+    const isAfternoonSun = (sunVal === 'medium' || sunVal === 'high');
     const lang = window.getCurrentLang ? window.getCurrentLang() : 'pt';
 
     // Obter parâmetros adicionais para as tags e a mensagem do WhatsApp
@@ -231,7 +233,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btuResultDesc) btuResultDesc.textContent = descText;
 
     // Gerar tags dos 6 parâmetros selecionados na UI
-    const sunLabels = { low: 'Pouco Sol', medium: 'Sol Moderado', high: 'Muito Sol' };
+    const sunLabels = {
+      low: lang === 'pt' ? 'Sol da manhã' : 'Morning sun',
+      medium: lang === 'pt' ? 'Sol da tarde' : 'Afternoon sun',
+      high: lang === 'pt' ? 'Sol o dia todo' : 'All day sun'
+    };
     const locLabels = { ground: 'Rés-do-chão', mid: 'Andar Intermédio', top: 'Último Andar' };
     const insLabels = { poor: 'Isolamento Fraco', good: 'Isolamento Bom', excellent: 'Isolamento Excelente' };
     const devLabels = { few: 'Poucos Equipamentos', medium: 'Equipamentos Moderados', many: 'Muitos Equipamentos' };
