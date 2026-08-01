@@ -154,75 +154,68 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 1. Carga térmica base por m² consoante sol
-    let baseFactor = 600; // BTU/m²
+    // Lógica de cálculo baseada estritamente na folha do utilizador
+    // Mapeamento: Sol de manhã = low / medium; Sol à tarde ou o dia todo = high
     const sunVal = btuSimSun ? btuSimSun.value : 'medium';
-    if (sunVal === 'medium') baseFactor = 700;
-    if (sunVal === 'high') baseFactor = 800;
+    const isAfternoonSun = (sunVal === 'high');
+    const lang = window.getCurrentLang ? window.getCurrentLang() : 'pt';
 
-    let totalBtu = area * baseFactor;
-
-    // 2. Extra por número de pessoas (1ª pessoa incluída, +600 BTU/pessoa adicional)
-    const peopleCount = parseInt(btuSimPeople ? btuSimPeople.value : '2', 10);
-    if (peopleCount > 1) {
-      totalBtu += (peopleCount - 1) * 600;
-    }
-
-    // 3. Fator de localização (andar superior / terraço tem mais exposição)
-    const locVal = btuSimLocation ? btuSimLocation.value : 'mid';
-    if (locVal === 'top') totalBtu *= 1.15; // +15%
-
-    // 4. Fator de isolamento
-    const insVal = btuSimInsulation ? btuSimInsulation.value : 'good';
-    if (insVal === 'poor') totalBtu *= 1.20; // +20%
-    if (insVal === 'excellent') totalBtu *= 0.90; // -10%
-
-    // 5. Carga de equipamentos eletrónicos
-    const devVal = btuSimDevices ? btuSimDevices.value : 'few';
-    if (devVal === 'medium') totalBtu += 600;
-    if (devVal === 'many') totalBtu += 1200;
-
-    // Arredondamento comercial para potências standard
     let finalBtu = 12000;
     let finalKw = '3.5 kW';
-    let descText = 'Recomendado para o seu espaço com excelente equilíbrio entre arrefecimento rápido e baixo consumo.';
+    let descText = '';
 
-    if (totalBtu <= 7500) {
+    if (area <= 10) {
       finalBtu = 7500;
       finalKw = '2.2 kW';
-      descText = `Ideal para divisões compactas (até ${area} m²) com necessidade reduzida de climatização.`;
-    } else if (totalBtu <= 10000) {
-      finalBtu = 9000;
-      finalKw = '2.5 kW';
-      descText = `Recomendado para quartos ou escritórios (até ${area} m²) garantindo conforto ideal.`;
-    } else if (totalBtu <= 13500) {
+      descText = lang === 'pt' ? 'Ideal para divisões compactas com necessidade reduzida de climatização.' : 'Ideal for compact rooms with reduced climatization needs.';
+    } else if (area <= 12) {
+      finalBtu = isAfternoonSun ? 10000 : 7500;
+      finalKw = isAfternoonSun ? '2.8 kW' : '2.2 kW';
+      descText = isAfternoonSun 
+        ? (lang === 'pt' ? 'Recomendado para quartos ou escritórios garantindo conforto ideal.' : 'Recommended for bedrooms or offices ensuring ideal comfort.')
+        : (lang === 'pt' ? 'Ideal para divisões compactas com necessidade reduzida de climatização.' : 'Ideal for compact rooms with reduced climatization needs.');
+    } else if (area <= 15) {
+      finalBtu = 10000;
+      finalKw = '2.8 kW';
+      descText = lang === 'pt' ? 'Recomendado para quartos ou escritórios garantindo conforto ideal.' : 'Recommended for bedrooms or offices ensuring ideal comfort.';
+    } else if (area <= 20) {
       finalBtu = 12000;
       finalKw = '3.5 kW';
-      descText = `Ideal para salas de estar ou suítes médias (até ${area} m²).`;
-    } else if (totalBtu <= 16500) {
-      finalBtu = 15000;
-      finalKw = '4.2 kW';
-      descText = `Recomendado para salas amplas ou com maior carga térmica acumulada.`;
-    } else if (totalBtu <= 19500) {
-      finalBtu = 18000;
-      finalKw = '5.0 kW';
-      descText = `Elevada capacidade de climatização para espaços abertos e salas grandes.`;
-    } else if (totalBtu <= 23500) {
-      finalBtu = 21000;
-      finalKw = '6.0 kW';
-      descText = `Potência elevada para grandes divisões ou espaços com forte exposição solar.`;
-    } else if (totalBtu <= 28000) {
-      finalBtu = 24000;
-      finalKw = '7.0 kW';
-      descText = `Excelente capacidade para open spaces, moradias amplas ou espaços comerciais.`;
-    } else if (totalBtu <= 34000) {
+      descText = lang === 'pt' ? 'Ideal para salas de estar ou suítes médias.' : 'Ideal for medium living rooms or suites.';
+    } else if (area <= 25) {
+      finalBtu = isAfternoonSun ? 15000 : 12000;
+      finalKw = isAfternoonSun ? '4.2 kW' : '3.5 kW';
+      descText = isAfternoonSun
+        ? (lang === 'pt' ? 'Recomendado para salas de tamanho intermédio com excelente rendimento.' : 'Recommended for medium-sized rooms with excellent performance.')
+        : (lang === 'pt' ? 'Ideal para salas de estar ou suítes médias.' : 'Ideal for medium living rooms or suites.');
+    } else if (area <= 30) {
+      finalBtu = isAfternoonSun ? 18000 : 15000;
+      finalKw = isAfternoonSun ? '5.0 kW' : '4.2 kW';
+      descText = isAfternoonSun
+        ? (lang === 'pt' ? 'Elevada capacidade de climatização para espaços abertos e salas grandes.' : 'High climatization capacity for open spaces and large rooms.')
+        : (lang === 'pt' ? 'Recomendado para salas de tamanho intermédio com excelente rendimento.' : 'Recommended for medium-sized rooms with excellent performance.');
+    } else if (area <= 40) {
+      finalBtu = isAfternoonSun ? 21000 : 18000;
+      finalKw = isAfternoonSun ? '6.0 kW' : '5.0 kW';
+      descText = isAfternoonSun
+        ? (lang === 'pt' ? 'Potência elevada para grandes divisões ou com forte exposição solar.' : 'High power for large rooms or with high sun exposure.')
+        : (lang === 'pt' ? 'Elevada capacidade de climatização para espaços abertos e salas grandes.' : 'High climatization capacity for open spaces and large rooms.');
+    } else if (area <= 60) {
+      finalBtu = isAfternoonSun ? 30000 : 21000;
+      finalKw = isAfternoonSun ? '8.5 kW' : '6.0 kW';
+      descText = isAfternoonSun
+        ? (lang === 'pt' ? 'Capacidade máxima individual para grandes salões ou escritórios abertos.' : 'Maximum individual capacity for large halls or open offices.')
+        : (lang === 'pt' ? 'Potência elevada para grandes divisões ou com forte exposição solar.' : 'High power for large rooms or with high sun exposure.');
+    } else if (area <= 70) {
       finalBtu = 30000;
       finalKw = '8.5 kW';
-      descText = `Capacidade máxima individual para grandes salões ou escritórios abertos.`;
+      descText = lang === 'pt' ? 'Capacidade máxima individual para grandes salões ou escritórios abertos.' : 'Maximum individual capacity for large halls or open offices.';
     } else {
       finalBtu = 36000;
       finalKw = '10.0 kW (Multi-Split / Condutas)';
-      descText = `Recomendada a instalação de sistema Multi-Split ou condutas para cobrir a elevada área e carga térmica.`;
+      descText = lang === 'pt' 
+        ? 'Recomendada a instalação de sistema Multi-Split ou condutas para cobrir a elevada área.' 
+        : 'Multi-Split or ducted system recommended to cover the large area.';
     }
 
     const btuFormatted = finalBtu >= 36000 ? '36.000+ BTU/h' : `${finalBtu.toLocaleString('pt-PT')} BTU/h`;
