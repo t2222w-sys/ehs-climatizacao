@@ -568,62 +568,93 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 6. PORTFÓLIO DINÂMICO DE TRABALHOS REALIZADOS (52 FOTOS)
-  const portfolioGrid = document.getElementById('portfolioGrid');
-  const portfolioLoadMoreBtn = document.getElementById('portfolioLoadMoreBtn');
-  const portfolioLoadMoreWrapper = document.getElementById('portfolioLoadMoreWrapper');
+  // 6. PORTFÓLIO DINÂMICO EM FORMATO DE CARROSSEL/SLIDER (Modelo Premium sem Legenda)
+  const portfolioSliderTrack = document.getElementById('portfolioSliderTrack');
+  const portfolioPrev = document.getElementById('portfolioPrev');
+  const portfolioNext = document.getElementById('portfolioNext');
+  const portfolioDots = document.getElementById('portfolioDots');
   const filterBtns = document.querySelectorAll('.portfolio-filter-btn');
 
-  // Lightbox
-  const lightbox = document.getElementById('portfolioLightbox');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const lightboxClose = document.getElementById('lightboxClose');
-
-  if (portfolioGrid && window.portfolioImages) {
+  if (portfolioSliderTrack && window.portfolioImages) {
     let currentCategory = 'all';
-    let visibleCount = 8;
-    const itemsPerLoad = 8;
-    let filteredImages = []; // Todas as imagens filtradas da categoria atual
-    let currentLightboxIndex = 0; // Índice da imagem ativa no lightbox
+    let filteredImages = [];
+    let currentSlideIndex = 0;
+
+    // Suporte para Swipe em ecrãs táteis
+    let touchStartX = 0;
+    let touchEndX = 0;
 
     const renderGallery = () => {
-      // Filtrar imagens da categoria atual
+      // Filtrar as imagens da categoria
       filteredImages = window.portfolioImages.filter(img => {
         return currentCategory === 'all' || img.category === currentCategory;
       });
 
-      // Gerar HTML apenas para as imagens visíveis
-      const toShow = filteredImages.slice(0, visibleCount);
-      
-      portfolioGrid.innerHTML = toShow.map((item) => {
+      // Gerar HTML de todos os slides no track
+      portfolioSliderTrack.innerHTML = filteredImages.map((item, idx) => {
         return `
-          <div class="portfolio-card" data-src="${item.src}">
+          <div class="portfolio-slide-item" data-index="${idx}">
             <img src="${item.src}" alt="${item.alt || ''}" loading="lazy" decoding="async">
-            <div class="portfolio-overlay">
-              <div class="portfolio-zoom-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                  <line x1="11" y1="8" x2="11" y2="14"></line>
-                  <line x1="8" y1="11" x2="14" y2="11"></line>
-                </svg>
-              </div>
-            </div>
           </div>
         `;
       }).join('');
 
-      // Adicionar a classe visible após um pequeno delay para a animação fade-in
-      setTimeout(() => {
-        const cards = portfolioGrid.querySelectorAll('.portfolio-card');
-        cards.forEach(card => card.classList.add('visible'));
-      }, 50);
+      // Gerar os Dots
+      renderDots();
 
-      // Gerir visibilidade do botão "Carregar Mais"
-      if (filteredImages.length > visibleCount) {
-        if (portfolioLoadMoreWrapper) portfolioLoadMoreWrapper.style.display = 'flex';
+      // Reset do slider para a primeira imagem
+      goToSlide(0, false);
+    };
+
+    const renderDots = () => {
+      if (!portfolioDots) return;
+      
+      portfolioDots.innerHTML = filteredImages.map((_, idx) => {
+        return `<span class="dot" data-index="${idx}"></span>`;
+      }).join('');
+
+      // Adicionar clique nos dots
+      const dots = portfolioDots.querySelectorAll('.dot');
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          const index = parseInt(dot.getAttribute('data-index'), 10);
+          goToSlide(index);
+        });
+      });
+    };
+
+    const goToSlide = (index, animate = true) => {
+      if (filteredImages.length === 0) return;
+
+      // Tratar limites e rotação circular do carrossel
+      if (index < 0) {
+        currentSlideIndex = filteredImages.length - 1;
+      } else if (index >= filteredImages.length) {
+        currentSlideIndex = 0;
       } else {
-        if (portfolioLoadMoreWrapper) portfolioLoadMoreWrapper.style.display = 'none';
+        currentSlideIndex = index;
+      }
+
+      // Definir a transição suave
+      if (animate) {
+        portfolioSliderTrack.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+      } else {
+        portfolioSliderTrack.style.transition = 'none';
+      }
+
+      // Deslocar o track
+      portfolioSliderTrack.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+
+      // Atualizar a classe ativa dos dots
+      if (portfolioDots) {
+        const dots = portfolioDots.querySelectorAll('.dot');
+        dots.forEach((dot, idx) => {
+          if (idx === currentSlideIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
       }
     };
 
@@ -633,115 +664,65 @@ document.addEventListener('DOMContentLoaded', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentCategory = btn.getAttribute('data-filter');
-        visibleCount = itemsPerLoad; // Reset ao contador
         renderGallery();
       });
     });
 
-    // Escutar clique no botão Carregar Mais
-    if (portfolioLoadMoreBtn) {
-      portfolioLoadMoreBtn.addEventListener('click', () => {
-        visibleCount += itemsPerLoad;
-        renderGallery();
-      });
-    }
-
-    // Atualizar a imagem no Lightbox com animação de fade suave
-    const updateLightboxImage = (index) => {
-      if (index >= 0 && index < filteredImages.length) {
-        currentLightboxIndex = index;
-        
-        // Efeito suave de transição ao mudar de imagem no lightbox
-        lightboxImg.style.opacity = '0';
-        lightboxImg.style.transform = 'scale(0.95)';
-        
-        setTimeout(() => {
-          lightboxImg.src = filteredImages[currentLightboxIndex].src;
-          lightboxImg.onload = () => {
-            lightboxImg.style.opacity = '1';
-            lightboxImg.style.transform = 'scale(1)';
-          };
-        }, 150);
-      }
-    };
-
-    // Gerir abertura do Lightbox
-    portfolioGrid.addEventListener('click', (e) => {
-      const card = e.target.closest('.portfolio-card');
-      if (card && lightbox && lightboxImg) {
-        const src = card.getAttribute('data-src');
-        const imgIndex = filteredImages.findIndex(img => img.src === src);
-        if (imgIndex !== -1) {
-          updateLightboxImage(imgIndex);
-          lightbox.classList.add('active');
-          lightbox.setAttribute('aria-hidden', 'false');
-          document.body.style.overflow = 'hidden';
-        }
-      }
-    });
-
-    // Navegação no Lightbox: Anterior
-    const showPrevImage = (e) => {
-      if (e) e.stopPropagation();
-      let prevIndex = currentLightboxIndex - 1;
-      if (prevIndex < 0) {
-        prevIndex = filteredImages.length - 1; // Volta ao fim
-      }
-      updateLightboxImage(prevIndex);
-    };
-
-    // Navegação no Lightbox: Seguinte
-    const showNextImage = (e) => {
-      if (e) e.stopPropagation();
-      let nextIndex = currentLightboxIndex + 1;
-      if (nextIndex >= filteredImages.length) {
-        nextIndex = 0; // Volta ao início
-      }
-      updateLightboxImage(nextIndex);
-    };
-
-    const lightboxPrev = document.getElementById('lightboxPrev');
-    const lightboxNext = document.getElementById('lightboxNext');
-
-    if (lightboxPrev) lightboxPrev.addEventListener('click', showPrevImage);
-    if (lightboxNext) lightboxNext.addEventListener('click', showNextImage);
-    if (lightboxImg) {
-      lightboxImg.addEventListener('click', (e) => {
+    // Avançar/Recuar com as setas
+    if (portfolioPrev) {
+      portfolioPrev.addEventListener('click', (e) => {
         e.stopPropagation();
-        showNextImage();
+        goToSlide(currentSlideIndex - 1);
       });
     }
 
-    // Fechar Lightbox
-    const closeLightbox = () => {
-      if (lightbox) {
-        lightbox.classList.remove('active');
-        lightbox.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        setTimeout(() => {
-          if (lightboxImg) lightboxImg.src = '';
-        }, 300);
+    if (portfolioNext) {
+      portfolioNext.addEventListener('click', (e) => {
+        e.stopPropagation();
+        goToSlide(currentSlideIndex + 1);
+      });
+    }
+
+    // Clique direto no slide (imagem) passa para o lado (seguinte)
+    portfolioSliderTrack.addEventListener('click', (e) => {
+      const slide = e.target.closest('.portfolio-slide-item');
+      if (slide) {
+        goToSlide(currentSlideIndex + 1);
+      }
+    });
+
+    // Eventos Touch para Swipe no telemóvel
+    portfolioSliderTrack.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    portfolioSliderTrack.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    const handleSwipe = () => {
+      const swipeDistance = touchEndX - touchStartX;
+      const minSwipeDistance = 50; // distância mínima de arraste
+      if (swipeDistance > minSwipeDistance) {
+        // Swipe para a direita -> Imagem anterior
+        goToSlide(currentSlideIndex - 1);
+      } else if (swipeDistance < -minSwipeDistance) {
+        // Swipe para a esquerda -> Imagem seguinte
+        goToSlide(currentSlideIndex + 1);
       }
     };
 
-    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
-    if (lightbox) {
-      lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox || e.target.classList.contains('lightbox-content')) {
-          closeLightbox();
-        }
-      });
-    }
-
-    // Suporte para teclas de seta e escape
+    // Suporte para teclas ArrowLeft e ArrowRight quando a secção do portfólio está visível
     document.addEventListener('keydown', (e) => {
-      if (lightbox && lightbox.classList.contains('active')) {
-        if (e.key === 'Escape') {
-          closeLightbox();
-        } else if (e.key === 'ArrowLeft') {
-          showPrevImage();
+      const rect = portfolioSliderTrack.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      
+      if (isVisible) {
+        if (e.key === 'ArrowLeft') {
+          goToSlide(currentSlideIndex - 1);
         } else if (e.key === 'ArrowRight') {
-          showNextImage();
+          goToSlide(currentSlideIndex + 1);
         }
       }
     });

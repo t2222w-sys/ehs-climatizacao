@@ -580,14 +580,30 @@
       <button class="portfolio-filter-btn" data-filter="tecnica" data-i18n="port_filter_tecnica">Salas Técnicas</button>
     </div>
 
-    <!-- Grelha Dinâmica de Imagens Otimizadas -->
-    <div class="portfolio-gallery-wrapper reveal">
-      <div class="portfolio-grid" id="portfolioGrid">
-        <!-- Gerado dinamicamente via JS a partir de portfolio_data.min.js -->
+    <!-- Carrossel Dinâmico de Imagens Otimizadas -->
+    <div class="portfolio-carousel-wrapper reveal">
+      <div class="portfolio-slider-container">
+        <button class="slider-arrow slider-prev" id="portfolioPrev" aria-label="Imagem anterior">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <div class="portfolio-slider-viewport">
+          <div class="portfolio-slider-track" id="portfolioSliderTrack">
+            <!-- Imagem gerada dinamicamente via JS -->
+          </div>
+        </div>
+
+        <button class="slider-arrow slider-next" id="portfolioNext" aria-label="Imagem seguinte">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
       </div>
-      <div class="portfolio-load-more" id="portfolioLoadMoreWrapper">
-        <button class="btn btn-outline-gold" id="portfolioLoadMoreBtn" data-i18n="port_load_more">Carregar Mais Fotos</button>
-      </div>
+
+      <!-- Indicadores (Dots) -->
+      <div class="portfolio-dots" id="portfolioDots"></div>
     </div>
 
     <!-- Secção de Avaliações Google (GMB) -->
