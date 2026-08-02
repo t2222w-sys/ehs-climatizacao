@@ -642,8 +642,8 @@ document.addEventListener('DOMContentLoaded', () => {
         portfolioSliderTrack.style.transition = 'none';
       }
 
-      // Deslocar o track
-      portfolioSliderTrack.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+      // Deslocar o track proporcionalmente ao número total de slides
+      portfolioSliderTrack.style.transform = `translateX(-${(currentSlideIndex * 100) / filteredImages.length}%)`;
 
       // Atualizar a classe ativa dos dots
       if (portfolioDots) {
