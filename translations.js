@@ -276,8 +276,7 @@ window.translations = {
     
     // Portfólio / Galeria de Trabalhos Realizados
     port_filter_all: "Todos",
-    port_filter_ac_int: "Ar Condicionado (Interior)",
-    port_filter_ac_ext: "Ar Condicionado (Exterior)",
+    port_filter_ac: "Ar Condicionado",
     port_filter_solar: "Energia Solar",
     port_filter_tecnica: "Salas Técnicas",
     port_load_more: "Carregar Mais Fotos"
@@ -561,8 +560,7 @@ window.translations = {
     
     // Portfolio / Gallery of Works Done
     port_filter_all: "All",
-    port_filter_ac_int: "Air Conditioning (Interior)",
-    port_filter_ac_ext: "Air Conditioning (Exterior)",
+    port_filter_ac: "Air Conditioning",
     port_filter_solar: "Solar Energy",
     port_filter_tecnica: "Technical Rooms",
     port_load_more: "Load More Photos"

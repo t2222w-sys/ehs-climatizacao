@@ -577,56 +577,41 @@ document.addEventListener('DOMContentLoaded', () => {
   // Lightbox
   const lightbox = document.getElementById('portfolioLightbox');
   const lightboxImg = document.getElementById('lightboxImg');
-  const lightboxCaption = document.getElementById('lightboxCaption');
   const lightboxClose = document.getElementById('lightboxClose');
 
   if (portfolioGrid && window.portfolioImages) {
     let currentCategory = 'all';
     let visibleCount = 8;
     const itemsPerLoad = 8;
-
-    // Tradução das legendas com base na categoria
-    const getCaptionText = (category, index) => {
-      const lang = window.getCurrentLang ? window.getCurrentLang() : 'pt';
-      const captions = {
-        'ac-interior': lang === 'pt' ? `Instalação interior de Ar Condicionado #${index}` : `Indoor Air Conditioning installation #${index}`,
-        'ac-exterior': lang === 'pt' ? `Instalação exterior de climatização #${index}` : `Outdoor AC installation #${index}`,
-        'solar': lang === 'pt' ? `Sistema Solar / Termossifão de águas #${index}` : `Solar / Thermosyphon energy system #${index}`,
-        'tecnica': lang === 'pt' ? `Central técnica e tubagem premium #${index}` : `Technical room and premium plumbing #${index}`
-      };
-      return captions[category] || (lang === 'pt' ? 'Trabalho realizado EHS' : 'EHS work done');
-    };
-
-    const getShortCategoryName = (category) => {
-      const lang = window.getCurrentLang ? window.getCurrentLang() : 'pt';
-      const names = {
-        'ac-interior': lang === 'pt' ? 'AC Mural' : 'Indoor AC',
-        'ac-exterior': lang === 'pt' ? 'AC Exterior' : 'Outdoor AC',
-        'solar': lang === 'pt' ? 'Energia Solar' : 'Solar Energy',
-        'tecnica': lang === 'pt' ? 'Sala Técnica' : 'Technical Room'
-      };
-      return names[category] || 'EHS';
-    };
+    let filteredImages = []; // Todas as imagens filtradas da categoria atual
+    let currentLightboxIndex = 0; // Índice da imagem ativa no lightbox
 
     const renderGallery = () => {
-      // Filtrar imagens da categoria
-      const filtered = window.portfolioImages.filter(img => {
-        return currentCategory === 'all' || img.category === currentCategory;
+      // Filtrar imagens da categoria atual
+      filteredImages = window.portfolioImages.filter(img => {
+        if (currentCategory === 'all') return true;
+        if (currentCategory === 'ac') {
+          return img.category === 'ac-interior' || img.category === 'ac-exterior';
+        }
+        return img.category === currentCategory;
       });
 
       // Gerar HTML apenas para as imagens visíveis
-      const toShow = filtered.slice(0, visibleCount);
+      const toShow = filteredImages.slice(0, visibleCount);
       
-      portfolioGrid.innerHTML = toShow.map((item, idx) => {
-        const caption = getCaptionText(item.category, idx + 1);
-        const catBadge = getShortCategoryName(item.category);
-        
+      portfolioGrid.innerHTML = toShow.map((item) => {
         return `
-          <div class="portfolio-card" data-src="${item.src}" data-caption="${caption}">
-            <img src="${item.src}" alt="${item.alt}" loading="lazy" decoding="async">
+          <div class="portfolio-card" data-src="${item.src}">
+            <img src="${item.src}" alt="${item.alt || ''}" loading="lazy" decoding="async">
             <div class="portfolio-overlay">
-              <span class="portfolio-overlay-category">${catBadge}</span>
-              <span class="portfolio-overlay-title">${caption}</span>
+              <div class="portfolio-zoom-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+              </div>
             </div>
           </div>
         `;
@@ -639,7 +624,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 50);
 
       // Gerir visibilidade do botão "Carregar Mais"
-      if (filtered.length > visibleCount) {
+      if (filteredImages.length > visibleCount) {
         if (portfolioLoadMoreWrapper) portfolioLoadMoreWrapper.style.display = 'flex';
       } else {
         if (portfolioLoadMoreWrapper) portfolioLoadMoreWrapper.style.display = 'none';
@@ -665,20 +650,65 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
+    // Atualizar a imagem no Lightbox com animação de fade suave
+    const updateLightboxImage = (index) => {
+      if (index >= 0 && index < filteredImages.length) {
+        currentLightboxIndex = index;
+        
+        // Efeito suave de transição ao mudar de imagem no lightbox
+        lightboxImg.style.opacity = '0';
+        lightboxImg.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+          lightboxImg.src = filteredImages[currentLightboxIndex].src;
+          lightboxImg.onload = () => {
+            lightboxImg.style.opacity = '1';
+            lightboxImg.style.transform = 'scale(1)';
+          };
+        }, 150);
+      }
+    };
+
     // Gerir abertura do Lightbox
     portfolioGrid.addEventListener('click', (e) => {
       const card = e.target.closest('.portfolio-card');
-      if (card && lightbox && lightboxImg && lightboxCaption) {
+      if (card && lightbox && lightboxImg) {
         const src = card.getAttribute('data-src');
-        const cap = card.getAttribute('data-caption');
-        
-        lightboxImg.src = src;
-        lightboxCaption.textContent = cap;
-        lightbox.classList.add('active');
-        lightbox.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
+        const imgIndex = filteredImages.findIndex(img => img.src === src);
+        if (imgIndex !== -1) {
+          updateLightboxImage(imgIndex);
+          lightbox.classList.add('active');
+          lightbox.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
       }
     });
+
+    // Navegação no Lightbox: Anterior
+    const showPrevImage = (e) => {
+      if (e) e.stopPropagation();
+      let prevIndex = currentLightboxIndex - 1;
+      if (prevIndex < 0) {
+        prevIndex = filteredImages.length - 1; // Volta ao fim
+      }
+      updateLightboxImage(prevIndex);
+    };
+
+    // Navegação no Lightbox: Seguinte
+    const showNextImage = (e) => {
+      if (e) e.stopPropagation();
+      let nextIndex = currentLightboxIndex + 1;
+      if (nextIndex >= filteredImages.length) {
+        nextIndex = 0; // Volta ao início
+      }
+      updateLightboxImage(nextIndex);
+    };
+
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+
+    if (lightboxPrev) lightboxPrev.addEventListener('click', showPrevImage);
+    if (lightboxNext) lightboxNext.addEventListener('click', showNextImage);
 
     // Fechar Lightbox
     const closeLightbox = () => {
@@ -701,10 +731,16 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Fechar com Escape
+    // Suporte para teclas de seta e escape
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && lightbox && lightbox.classList.contains('active')) {
-        closeLightbox();
+      if (lightbox && lightbox.classList.contains('active')) {
+        if (e.key === 'Escape') {
+          closeLightbox();
+        } else if (e.key === 'ArrowLeft') {
+          showPrevImage();
+        } else if (e.key === 'ArrowRight') {
+          showNextImage();
+        }
       }
     });
 
