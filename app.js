@@ -568,4 +568,148 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // 6. PORTFÓLIO DINÂMICO DE TRABALHOS REALIZADOS (52 FOTOS)
+  const portfolioGrid = document.getElementById('portfolioGrid');
+  const portfolioLoadMoreBtn = document.getElementById('portfolioLoadMoreBtn');
+  const portfolioLoadMoreWrapper = document.getElementById('portfolioLoadMoreWrapper');
+  const filterBtns = document.querySelectorAll('.portfolio-filter-btn');
+
+  // Lightbox
+  const lightbox = document.getElementById('portfolioLightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxCaption = document.getElementById('lightboxCaption');
+  const lightboxClose = document.getElementById('lightboxClose');
+
+  if (portfolioGrid && window.portfolioImages) {
+    let currentCategory = 'all';
+    let visibleCount = 8;
+    const itemsPerLoad = 8;
+
+    // Tradução das legendas com base na categoria
+    const getCaptionText = (category, index) => {
+      const lang = window.getCurrentLang ? window.getCurrentLang() : 'pt';
+      const captions = {
+        'ac-interior': lang === 'pt' ? `Instalação interior de Ar Condicionado #${index}` : `Indoor Air Conditioning installation #${index}`,
+        'ac-exterior': lang === 'pt' ? `Instalação exterior de climatização #${index}` : `Outdoor AC installation #${index}`,
+        'solar': lang === 'pt' ? `Sistema Solar / Termossifão de águas #${index}` : `Solar / Thermosyphon energy system #${index}`,
+        'tecnica': lang === 'pt' ? `Central técnica e tubagem premium #${index}` : `Technical room and premium plumbing #${index}`
+      };
+      return captions[category] || (lang === 'pt' ? 'Trabalho realizado EHS' : 'EHS work done');
+    };
+
+    const getShortCategoryName = (category) => {
+      const lang = window.getCurrentLang ? window.getCurrentLang() : 'pt';
+      const names = {
+        'ac-interior': lang === 'pt' ? 'AC Mural' : 'Indoor AC',
+        'ac-exterior': lang === 'pt' ? 'AC Exterior' : 'Outdoor AC',
+        'solar': lang === 'pt' ? 'Energia Solar' : 'Solar Energy',
+        'tecnica': lang === 'pt' ? 'Sala Técnica' : 'Technical Room'
+      };
+      return names[category] || 'EHS';
+    };
+
+    const renderGallery = () => {
+      // Filtrar imagens da categoria
+      const filtered = window.portfolioImages.filter(img => {
+        return currentCategory === 'all' || img.category === currentCategory;
+      });
+
+      // Gerar HTML apenas para as imagens visíveis
+      const toShow = filtered.slice(0, visibleCount);
+      
+      portfolioGrid.innerHTML = toShow.map((item, idx) => {
+        const caption = getCaptionText(item.category, idx + 1);
+        const catBadge = getShortCategoryName(item.category);
+        
+        return `
+          <div class="portfolio-card" data-src="${item.src}" data-caption="${caption}">
+            <img src="${item.src}" alt="${item.alt}" loading="lazy" decoding="async">
+            <div class="portfolio-overlay">
+              <span class="portfolio-overlay-category">${catBadge}</span>
+              <span class="portfolio-overlay-title">${caption}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Adicionar a classe visible após um pequeno delay para a animação fade-in
+      setTimeout(() => {
+        const cards = portfolioGrid.querySelectorAll('.portfolio-card');
+        cards.forEach(card => card.classList.add('visible'));
+      }, 50);
+
+      // Gerir visibilidade do botão "Carregar Mais"
+      if (filtered.length > visibleCount) {
+        if (portfolioLoadMoreWrapper) portfolioLoadMoreWrapper.style.display = 'flex';
+      } else {
+        if (portfolioLoadMoreWrapper) portfolioLoadMoreWrapper.style.display = 'none';
+      }
+    };
+
+    // Escutar cliques nos filtros
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.getAttribute('data-filter');
+        visibleCount = itemsPerLoad; // Reset ao contador
+        renderGallery();
+      });
+    });
+
+    // Escutar clique no botão Carregar Mais
+    if (portfolioLoadMoreBtn) {
+      portfolioLoadMoreBtn.addEventListener('click', () => {
+        visibleCount += itemsPerLoad;
+        renderGallery();
+      });
+    }
+
+    // Gerir abertura do Lightbox
+    portfolioGrid.addEventListener('click', (e) => {
+      const card = e.target.closest('.portfolio-card');
+      if (card && lightbox && lightboxImg && lightboxCaption) {
+        const src = card.getAttribute('data-src');
+        const cap = card.getAttribute('data-caption');
+        
+        lightboxImg.src = src;
+        lightboxCaption.textContent = cap;
+        lightbox.classList.add('active');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+
+    // Fechar Lightbox
+    const closeLightbox = () => {
+      if (lightbox) {
+        lightbox.classList.remove('active');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        setTimeout(() => {
+          if (lightboxImg) lightboxImg.src = '';
+        }, 300);
+      }
+    };
+
+    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+    if (lightbox) {
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox || e.target.classList.contains('lightbox-content')) {
+          closeLightbox();
+        }
+      });
+    }
+
+    // Fechar com Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox && lightbox.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+
+    // Primeira renderização
+    renderGallery();
+  }
+
 });

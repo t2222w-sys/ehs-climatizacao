@@ -272,8 +272,15 @@ window.translations = {
     // Alertas e Mensagens de Feedback em JavaScript
     alert_fill_fields: "Por favor, preencha todos os campos obrigatórios.",
     btn_sending_form: "A enviar pedido...",
-    btn_whatsapp_calc_error: "Solicitar Orçamento no WhatsApp",
-    form_submit_error: "Ocorreu um erro ao enviar o seu pedido por e-mail. Por favor, tente novamente ou contacte-nos diretamente por telefone ou WhatsApp."
+    form_submit_error: "Ocorreu um erro ao enviar o seu pedido por e-mail. Por favor, tente novamente ou contacte-nos diretamente por telefone ou WhatsApp.",
+    
+    // Portfólio / Galeria de Trabalhos Realizados
+    port_filter_all: "Todos",
+    port_filter_ac_int: "Ar Condicionado (Interior)",
+    port_filter_ac_ext: "Ar Condicionado (Exterior)",
+    port_filter_solar: "Energia Solar",
+    port_filter_tecnica: "Salas Técnicas",
+    port_load_more: "Carregar Mais Fotos"
   },
   en: {
     // Top Banner
@@ -550,7 +557,14 @@ window.translations = {
     // Alerters & feedback in Javascript
     alert_fill_fields: "Please fill in all required fields.",
     btn_sending_form: "Sending request...",
-    btn_whatsapp_calc_error: "Request Quote on WhatsApp",
-    form_submit_error: "An error occurred while sending your request by email. Please try again or contact us directly by phone or WhatsApp."
+    form_submit_error: "An error occurred while sending your request by email. Please try again or contact us directly by phone or WhatsApp.",
+    
+    // Portfolio / Gallery of Works Done
+    port_filter_all: "All",
+    port_filter_ac_int: "Air Conditioning (Interior)",
+    port_filter_ac_ext: "Air Conditioning (Exterior)",
+    port_filter_solar: "Solar Energy",
+    port_filter_tecnica: "Technical Rooms",
+    port_load_more: "Load More Photos"
   }
 };
