@@ -568,19 +568,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 6. PORTFÓLIO DINÂMICO EM FORMATO DE CARROSSEL/SLIDER (Modelo Premium sem Legenda)
-  const portfolioSliderTrack = document.getElementById('portfolioSliderTrack');
-  const portfolioPrev = document.getElementById('portfolioPrev');
-  const portfolioNext = document.getElementById('portfolioNext');
-  const portfolioDots = document.getElementById('portfolioDots');
+  // 6. PORTFÓLIO DINÂMICO EM FORMATO DE CARROSSEL/SLIDER (LÓGICA JUBA)
+  const sliderTrack = document.getElementById('sliderTrack');
+  const prevBtn = document.getElementById('sliderPrevBtn');
+  const nextBtn = document.getElementById('sliderNextBtn');
+  const indicatorsContainer = document.getElementById('sliderIndicators');
   const filterBtns = document.querySelectorAll('.portfolio-filter-btn');
 
-  if (portfolioSliderTrack && window.portfolioImages) {
+  if (sliderTrack && window.portfolioImages) {
     let currentCategory = 'all';
     let filteredImages = [];
-    let currentSlideIndex = 0;
+    let activeIndex = 0;
 
-    // Suporte para Swipe em ecrãs táteis
+    // Gestão de swipe tátil
     let touchStartX = 0;
     let touchEndX = 0;
 
@@ -591,71 +591,92 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       // Gerar HTML de todos os slides no track
-      portfolioSliderTrack.innerHTML = filteredImages.map((item, idx) => {
+      sliderTrack.innerHTML = filteredImages.map((item, idx) => {
         return `
-          <div class="portfolio-slide-item" data-index="${idx}">
-            <img src="${item.src}" alt="${item.alt || ''}" loading="lazy" decoding="async">
+          <div class="inspiration-slide" data-index="${idx}">
+            <div class="slide-img-wrapper">
+              <img src="${item.src}" alt="${item.alt || ''}" loading="lazy" decoding="async">
+            </div>
           </div>
         `;
       }).join('');
 
-      // Gerar os Dots
-      renderDots();
+      // Gerar indicadores dinamicamente
+      createIndicators();
 
-      // Reset do slider para a primeira imagem
+      // Reset do slide para o início
       goToSlide(0, false);
     };
 
-    const renderDots = () => {
-      if (!portfolioDots) return;
-      
-      portfolioDots.innerHTML = filteredImages.map((_, idx) => {
-        return `<span class="dot" data-index="${idx}"></span>`;
-      }).join('');
-
-      // Adicionar clique nos dots
-      const dots = portfolioDots.querySelectorAll('.dot');
-      dots.forEach(dot => {
+    const createIndicators = () => {
+      if (!indicatorsContainer) return;
+      indicatorsContainer.innerHTML = '';
+      filteredImages.forEach((_, idx) => {
+        const dot = document.createElement('button');
+        dot.className = 'indicator-dot';
+        if (idx === activeIndex) dot.classList.add('active');
+        dot.setAttribute('aria-label', `Ir para slide ${idx + 1}`);
         dot.addEventListener('click', () => {
-          const index = parseInt(dot.getAttribute('data-index'), 10);
-          goToSlide(index);
+          goToSlide(idx);
         });
+        indicatorsContainer.appendChild(dot);
       });
+    };
+
+    const updateIndicators = () => {
+      if (!indicatorsContainer) return;
+      const dots = indicatorsContainer.querySelectorAll('.indicator-dot');
+      dots.forEach((dot, idx) => {
+        if (idx === activeIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    };
+
+    const updateArrowStates = () => {
+      if (!prevBtn || !nextBtn) return;
+      
+      if (activeIndex === 0) {
+        prevBtn.classList.add('disabled');
+        prevBtn.setAttribute('disabled', 'true');
+      } else {
+        prevBtn.classList.remove('disabled');
+        prevBtn.removeAttribute('disabled');
+      }
+
+      if (activeIndex === filteredImages.length - 1 || filteredImages.length === 0) {
+        nextBtn.classList.add('disabled');
+        nextBtn.setAttribute('disabled', 'true');
+      } else {
+        nextBtn.classList.remove('disabled');
+        nextBtn.removeAttribute('disabled');
+      }
     };
 
     const goToSlide = (index, animate = true) => {
       if (filteredImages.length === 0) return;
 
-      // Tratar limites e rotação circular do carrossel
       if (index < 0) {
-        currentSlideIndex = filteredImages.length - 1;
+        activeIndex = 0;
       } else if (index >= filteredImages.length) {
-        currentSlideIndex = 0;
+        activeIndex = filteredImages.length - 1;
       } else {
-        currentSlideIndex = index;
+        activeIndex = index;
       }
 
-      // Definir a transição suave
       if (animate) {
-        portfolioSliderTrack.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+        sliderTrack.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
       } else {
-        portfolioSliderTrack.style.transition = 'none';
+        sliderTrack.style.transition = 'none';
       }
 
-      // Deslocar o track proporcionalmente ao número total de slides
-      portfolioSliderTrack.style.transform = `translateX(-${(currentSlideIndex * 100) / filteredImages.length}%)`;
-
-      // Atualizar a classe ativa dos dots
-      if (portfolioDots) {
-        const dots = portfolioDots.querySelectorAll('.dot');
-        dots.forEach((dot, idx) => {
-          if (idx === currentSlideIndex) {
-            dot.classList.add('active');
-          } else {
-            dot.classList.remove('active');
-          }
-        });
-      }
+      // Deslocar com base na largura exata de 1 slide (100% de largura)
+      sliderTrack.style.transform = `translateX(-${activeIndex * 100}%)`;
+      
+      updateIndicators();
+      updateArrowStates();
     };
 
     // Escutar cliques nos filtros
@@ -668,66 +689,68 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Avançar/Recuar com as setas
-    if (portfolioPrev) {
-      portfolioPrev.addEventListener('click', (e) => {
+    // Setas
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        goToSlide(currentSlideIndex - 1);
+        goToSlide(activeIndex - 1);
       });
     }
 
-    if (portfolioNext) {
-      portfolioNext.addEventListener('click', (e) => {
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        goToSlide(currentSlideIndex + 1);
+        goToSlide(activeIndex + 1);
       });
     }
 
-    // Clique direto no slide (imagem) passa para o lado (seguinte)
-    portfolioSliderTrack.addEventListener('click', (e) => {
-      const slide = e.target.closest('.portfolio-slide-item');
+    // Clique direto na imagem passa para o lado (seguinte)
+    sliderTrack.addEventListener('click', (e) => {
+      const slide = e.target.closest('.inspiration-slide');
       if (slide) {
-        goToSlide(currentSlideIndex + 1);
+        let nextIdx = activeIndex + 1;
+        if (nextIdx >= filteredImages.length) {
+          nextIdx = 0;
+        }
+        goToSlide(nextIdx);
       }
     });
 
-    // Eventos Touch para Swipe no telemóvel
-    portfolioSliderTrack.addEventListener('touchstart', (e) => {
+    // Swipe no telemóvel
+    sliderTrack.addEventListener('touchstart', (e) => {
       touchStartX = e.changedTouches[0].screenX;
     }, { passive: true });
 
-    portfolioSliderTrack.addEventListener('touchend', (e) => {
+    sliderTrack.addEventListener('touchend', (e) => {
       touchEndX = e.changedTouches[0].screenX;
       handleSwipe();
     }, { passive: true });
 
     const handleSwipe = () => {
       const swipeDistance = touchEndX - touchStartX;
-      const minSwipeDistance = 50; // distância mínima de arraste
+      const minSwipeDistance = 50;
       if (swipeDistance > minSwipeDistance) {
-        // Swipe para a direita -> Imagem anterior
-        goToSlide(currentSlideIndex - 1);
+        goToSlide(activeIndex - 1);
       } else if (swipeDistance < -minSwipeDistance) {
-        // Swipe para a esquerda -> Imagem seguinte
-        goToSlide(currentSlideIndex + 1);
+        goToSlide(activeIndex + 1);
       }
     };
 
-    // Suporte para teclas ArrowLeft e ArrowRight quando a secção do portfólio está visível
+    // Teclas de seta
     document.addEventListener('keydown', (e) => {
-      const rect = portfolioSliderTrack.getBoundingClientRect();
+      const rect = sliderTrack.getBoundingClientRect();
       const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
       
       if (isVisible) {
         if (e.key === 'ArrowLeft') {
-          goToSlide(currentSlideIndex - 1);
+          goToSlide(activeIndex - 1);
         } else if (e.key === 'ArrowRight') {
-          goToSlide(currentSlideIndex + 1);
+          goToSlide(activeIndex + 1);
         }
       }
     });
 
-    // Primeira renderização
+    // Primeira renderização da galeria
     renderGallery();
   }
 

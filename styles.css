@@ -1719,156 +1719,155 @@ footer.footer-editorial {
   box-shadow: 0 4px 14px rgba(224, 90, 16, 0.3);
 }
 
-/* Carrossel Dinâmico de Imagens (Apenas Imagem) */
-.portfolio-carousel-wrapper {
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto 3.5rem auto;
-  position: relative;
+/* Carrossel Dinâmico de Imagens (Modelo JUBA sem Legenda) */
+.inspiration-slider-container {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto 3rem auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
-.portfolio-slider-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 100%;
+.inspiration-slider-viewport {
+    flex: 1;
+    overflow: hidden;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
+    background-color: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.portfolio-slider-viewport {
-  width: 100%;
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background-color: #0f172a;
+.inspiration-slider-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
 }
 
-.portfolio-slider-track {
-  display: flex;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  width: 100%;
+.inspiration-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    box-sizing: border-box;
+    aspect-ratio: 16/9;
+    cursor: pointer;
+    overflow: hidden;
 }
 
-.portfolio-slide-item {
-  min-width: 100%;
-  flex-shrink: 0;
-  aspect-ratio: 16/9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
+.slide-img-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
 }
 
-.portfolio-slide-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+.slide-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
 }
 
-.portfolio-slide-item:hover img {
-  transform: scale(1.03);
+.inspiration-slide:hover .slide-img-wrapper img {
+    transform: scale(1.03);
 }
 
-/* Botões de Seta do Slider */
+/* Setas do Slider (Estilo JUBA) */
 .slider-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #ffffff;
-  border: none;
-  color: #334155;
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 10;
+    background: #ffffff;
+    border: none;
+    color: #334155;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 10;
+    flex-shrink: 0;
 }
 
 .slider-arrow:hover {
-  background: #f8fafc;
-  color: var(--accent);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  transform: translateY(-50%) scale(1.08);
+    background: #f8fafc;
+    color: var(--accent);
+    transform: scale(1.08);
 }
 
-.slider-arrow:active {
-  transform: translateY(-50%) scale(0.95);
+.slider-arrow.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
-.slider-prev {
-  left: -27px;
+/* Indicadores (Dots) */
+.slider-indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
 }
 
-.slider-next {
-  right: -27px;
+.indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #cbd5e1;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0;
 }
 
-/* Indicadores de Paginação (Dots) */
-.portfolio-dots {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 1.75rem;
-  flex-wrap: wrap;
+.indicator-dot:hover {
+    background-color: #94a3b8;
 }
 
-.portfolio-dots .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #cbd5e1;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.portfolio-dots .dot:hover {
-  background-color: #94a3b8;
-}
-
-.portfolio-dots .dot.active {
-  width: 24px;
-  border-radius: 50px;
-  background-color: var(--accent);
-  box-shadow: 0 2px 6px rgba(224, 90, 16, 0.3);
+.indicator-dot.active {
+    width: 24px;
+    border-radius: 50px;
+    background-color: var(--accent);
+    box-shadow: 0 2px 6px rgba(224, 90, 16, 0.3);
 }
 
 /* Responsivo */
 @media (max-width: 1024px) {
-  .slider-prev {
-    left: 1.5rem;
+  .prev-btn {
+    margin-left: 10px;
   }
-  .slider-next {
-    right: 1.5rem;
-  }
-  .slider-arrow {
-    background: rgba(255, 255, 255, 0.9);
-    width: 48px;
-    height: 48px;
+  .next-btn {
+    margin-right: 10px;
   }
 }
 
 @media (max-width: 768px) {
-  .portfolio-slide-item {
-    aspect-ratio: 4/3;
-  }
-  .portfolio-filters-wrapper {
-    margin: 2rem 0 1.5rem 0;
-  }
-  .portfolio-filter-btn {
-    padding: 0.5rem 1.2rem;
-    font-size: 0.82rem;
-  }
+    .inspiration-slide {
+        aspect-ratio: 4/3;
+    }
+    .inspiration-slider-container {
+        gap: 10px;
+        position: relative;
+    }
+    .slider-arrow {
+        width: 42px;
+        height: 42px;
+    }
+    .prev-btn {
+        margin-left: 5px;
+    }
+    .next-btn {
+        margin-right: 5px;
+    }
+    .portfolio-filters-wrapper {
+        margin: 2rem 0 1.5rem 0;
+    }
+    .portfolio-filter-btn {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.82rem;
+    }
 }
 
 /* Botão Carregar Mais */
