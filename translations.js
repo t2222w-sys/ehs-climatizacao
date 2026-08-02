@@ -276,7 +276,9 @@ window.translations = {
     
     // Portfólio / Galeria de Trabalhos Realizados
     port_filter_all: "Todos",
-    port_filter_ac: "Ar Condicionado",
+    port_filter_ac_int: "Instalações Interiores",
+    port_filter_ac_ext: "Instalações Exteriores",
+    port_filter_grua: "Elevação com Grua",
     port_filter_solar: "Energia Solar",
     port_filter_tecnica: "Salas Técnicas",
     port_load_more: "Carregar Mais Fotos"
@@ -560,7 +562,9 @@ window.translations = {
     
     // Portfolio / Gallery of Works Done
     port_filter_all: "All",
-    port_filter_ac: "Air Conditioning",
+    port_filter_ac_int: "Indoor Installations",
+    port_filter_ac_ext: "Outdoor Installations",
+    port_filter_grua: "Crane Lifting",
     port_filter_solar: "Solar Energy",
     port_filter_tecnica: "Technical Rooms",
     port_load_more: "Load More Photos"

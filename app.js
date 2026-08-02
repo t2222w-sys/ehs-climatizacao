@@ -589,11 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderGallery = () => {
       // Filtrar imagens da categoria atual
       filteredImages = window.portfolioImages.filter(img => {
-        if (currentCategory === 'all') return true;
-        if (currentCategory === 'ac') {
-          return img.category === 'ac-interior' || img.category === 'ac-exterior';
-        }
-        return img.category === currentCategory;
+        return currentCategory === 'all' || img.category === currentCategory;
       });
 
       // Gerar HTML apenas para as imagens visíveis
@@ -709,6 +705,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (lightboxPrev) lightboxPrev.addEventListener('click', showPrevImage);
     if (lightboxNext) lightboxNext.addEventListener('click', showNextImage);
+    if (lightboxImg) {
+      lightboxImg.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showNextImage();
+      });
+    }
 
     // Fechar Lightbox
     const closeLightbox = () => {
