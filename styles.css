@@ -1768,9 +1768,6 @@ footer.footer-editorial {
     transition: transform 0.5s ease;
 }
 
-.inspiration-slide:hover .slide-img-wrapper img {
-    transform: scale(1.03);
-}
 
 /* Setas do Slider (Estilo JUBA) */
 .slider-arrow {
