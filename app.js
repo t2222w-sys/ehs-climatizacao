@@ -576,7 +576,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const filterBtns = document.querySelectorAll('.portfolio-filter-btn');
 
   if (sliderTrack && window.portfolioImages) {
-    let currentCategory = 'all';
+    let currentCategory = 'ac-interior';
     let filteredImages = [];
     let activeIndex = 0;
 
