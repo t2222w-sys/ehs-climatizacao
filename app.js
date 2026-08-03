@@ -750,6 +750,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+
     // Primeira renderização da galeria
     renderGallery();
   }
