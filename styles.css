@@ -1276,11 +1276,15 @@ footer.footer-editorial {
   pointer-events: auto;
   animation: whatsapp-shake 8s infinite ease-in-out;
   transform-origin: center;
+  /* Isolamento GPU para evitar shadow leaks e artifacts gráficos em dispositivos móveis */
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 .whatsapp-btn:hover {
   animation-play-state: paused;
-  transform: translateY(-5px) scale(1.05);
+  transform: translateY(-5px) scale(1.05) translate3d(0, 0, 0);
   box-shadow: 0 12px 25px rgba(15, 23, 42, 0.22);
 }
 
@@ -1465,6 +1469,8 @@ footer.footer-editorial {
     width: 48px;
     height: 48px;
     font-size: 1.5rem;
+    animation: none !important; /* Desativa a animação em mobile para evitar glitches gráficos da GPU (manchas verdes) */
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12) !important;
   }
   
   .whatsapp-tooltip {
