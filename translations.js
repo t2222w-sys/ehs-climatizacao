@@ -1,7 +1,7 @@
 window.translations = {
   pt: {
     // Barra de Avisos Superior
-    top_bar_1: "Técnicos Credenciados APA",
+    top_bar_1: "Técnicos Certificados",
     top_bar_2: "15 Anos de Experiência Local",
     top_bar_3: "Garantia de Instalação por Escrito",
     top_bar_4: "Venda, Instalação e Manutenção",
@@ -28,8 +28,8 @@ window.translations = {
     // Hero Trust Indicators
     trust_title_1: "15 Anos de Experiência",
     trust_desc_1: "Quinze anos de especialização em climatização doméstica e comercial nas zonas costeiras e de interior.",
-    trust_title_2: "Certificação APA Oficial",
-    trust_desc_2: "Técnicos totalmente credenciados pela APA para manuseamento de gases fluorados e cumprimento legal ambiental.",
+    trust_title_2: "Técnicos Certificados",
+    trust_desc_2: "Técnicos totalmente certificados para o manuseamento de gases fluorados e climatização.",
     trust_title_3: "Garantia por Escrito",
     trust_desc_3: "Contratos transparentes com garantia integral pós-venda em todas as peças e trabalhos de instalação.",
 
@@ -285,7 +285,7 @@ window.translations = {
   },
   en: {
     // Top Banner
-    top_bar_1: "APA Certified Technicians",
+    top_bar_1: "Certified Technicians",
     top_bar_2: "15 Years of Local Experience",
     top_bar_3: "Written Installation Warranty",
     top_bar_4: "Sales, Installation and Maintenance",
@@ -312,8 +312,8 @@ window.translations = {
     // Hero Trust Indicators
     trust_title_1: "15 Years of Experience",
     trust_desc_1: "Fifteen years of specialization in domestic and commercial air conditioning in coastal and inland areas.",
-    trust_title_2: "Official APA Certification",
-    trust_desc_2: "Technicians fully certified by APA for handling fluorinated gases and environmental compliance.",
+    trust_title_2: "Certified Technicians",
+    trust_desc_2: "Technicians fully certified for handling fluorinated gases and climatization systems.",
     trust_title_3: "Written Warranty",
     trust_desc_3: "Transparent contracts with full after-sales warranty on all parts and installation work.",
 
