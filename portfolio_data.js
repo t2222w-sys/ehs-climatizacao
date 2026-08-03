@@ -22,7 +22,6 @@ window.portfolioImages = [
   { src: 'trabalhos/ac_exterior_6.webp', category: 'ac-exterior', alt: 'Instalação de Ar Condicionado (Unidade Exterior) - EHS' },
   { src: 'trabalhos/ac_exterior_7.webp', category: 'ac-exterior', alt: 'Instalação de Ar Condicionado (Unidade Exterior) - EHS' },
   { src: 'trabalhos/ac_exterior_8.webp', category: 'ac-exterior', alt: 'Instalação de Ar Condicionado (Unidade Exterior) - EHS' },
-  { src: 'trabalhos/ac_exterior_9.webp', category: 'ac-exterior', alt: 'Instalação de Ar Condicionado (Unidade Exterior) - EHS' },
   { src: 'trabalhos/solar_1.webp', category: 'solar', alt: 'Instalação de Painel Solar e Transição Energética - EHS' },
   { src: 'trabalhos/solar_2.webp', category: 'solar', alt: 'Instalação de Painel Solar e Transição Energética - EHS' },
   { src: 'trabalhos/solar_3.webp', category: 'solar', alt: 'Instalação de Painel Solar e Transição Energética - EHS' },
